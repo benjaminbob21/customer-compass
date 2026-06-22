@@ -1,21 +1,136 @@
+"use client";
+
+/**
+ * Home / Incident Analysis Page
+ * Main entry point for Customer Compass demo
+ * 
+ * This is the primary page where support engineers submit customer issues
+ * and get AI analysis results.
+ */
+
+import { useState } from "react";
+import IssueForm from "@/components/IssueForm";
+import AnalysisResults from "@/components/AnalysisResults";
+import { analyzeIssue } from "@/api/client";
+import BrandLogo from "@/components/BrandLogo";
+
+interface AnalysisResult {
+  similarIncidents: Array<{
+    id: string;
+    title: string;
+    resolution: string;
+  }>;
+  recommendedActions: string[];
+  customerMessage: string;
+}
+
 export default function Home() {
+  // State management
+  const [issue, setIssue] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [results, setResults] = useState<AnalysisResult | null>(null);
+  const [error, setError] = useState<string>("");
+
+  /**
+   * Handle form submission
+   * Calls the backend API to analyze the customer issue
+   */
+  const handleAnalyze = async (issueText: string) => {
+    setIssue(issueText);
+    setIsLoading(true);
+    setError("");
+    setResults(null);
+
+    try {
+      const data = await analyzeIssue(issueText);
+      setResults(data);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "An error occurred while analyzing the issue."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <div className="flex flex-1 flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex w-full max-w-2xl flex-col items-center gap-6 px-6 py-24 text-center">
-        <span className="rounded-full border border-black/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-zinc-500 dark:border-white/15 dark:text-zinc-400">
-          Hackathon Project
-        </span>
-        <h1 className="text-4xl font-semibold tracking-tight text-black sm:text-5xl dark:text-zinc-50">
-          Customer Compass
-        </h1>
-        <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-          An AI-powered support platform that helps teams deliver clear,
-          personalized, and trustworthy customer experiences.
-        </p>
-        <p className="text-sm text-zinc-400 dark:text-zinc-600">
-          Base project ready — start building.
-        </p>
-      </main>
-    </div>
+    <main className="flex-1">
+      <div className="brand-page-hero px-6 py-16 text-white md:py-20">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[1.05fr_0.95fr]">
+          <div className="relative z-10 max-w-2xl">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.26em] text-white/80">
+              Customer trust, made visible
+            </p>
+            <h1 className="text-5xl font-bold tracking-tight md:text-6xl">Customer Compass</h1>
+            <p className="mt-4 text-xl text-white/88 md:text-2xl">
+              Guiding customers through uncertainty with clarity, trust, and proactive support.
+            </p>
+            <p className="mt-6 max-w-2xl text-base leading-7 text-white/82 md:text-lg">
+              When support teams understand the issue quickly and explain it clearly, customers stay confident. Customer Compass turns historical incidents into action plans and customer-ready updates in seconds.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3 text-sm text-white/88">
+              <span className="rounded-full border border-white/20 bg-white/12 px-4 py-2 backdrop-blur">Find similar incidents</span>
+              <span className="rounded-full border border-white/20 bg-white/12 px-4 py-2 backdrop-blur">Draft clear updates</span>
+              <span className="rounded-full border border-white/20 bg-white/12 px-4 py-2 backdrop-blur">Enable proactive rescue</span>
+            </div>
+          </div>
+          <div className="relative z-10">
+            <div className="rounded-[32px] border border-white/20 bg-white/10 p-3 shadow-2xl backdrop-blur">
+              <BrandLogo size="hero" className="justify-center" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-4xl px-6 py-12">
+        <div className="brand-panel mb-12 rounded-[28px] p-8">
+          <h2 className="text-2xl font-bold text-[var(--brand-ink)] mb-2">Analyze an Issue</h2>
+          <p className="mb-6 text-[var(--brand-ink)]/70">
+            Start with the customer problem. Customer Compass will surface similar incidents, recommended actions, and a message you can send with confidence.
+          </p>
+          <IssueForm onSubmit={handleAnalyze} isLoading={isLoading} />
+        </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-lg mb-8">
+            <p className="font-semibold">Error</p>
+            <p>{error}</p>
+          </div>
+        )}
+
+        {/* Loading State */}
+        {isLoading && (
+          <div className="text-center py-12">
+            <div className="inline-block">
+              <div className="h-8 w-8 animate-spin rounded-full border-4 border-white border-t-[var(--brand-deep)]"></div>
+            </div>
+            <p className="text-gray-600 mt-4">Analyzing issue...</p>
+          </div>
+        )}
+
+        {/* Results Section */}
+        {results && !isLoading && (
+          <div className="brand-panel rounded-[28px] p-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">Analysis Results</h2>
+            <AnalysisResults
+              similarIncidents={results.similarIncidents}
+              recommendedActions={results.recommendedActions}
+              customerMessage={results.customerMessage}
+            />
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!results && !isLoading && !error && issue === "" && (
+          <div className="text-center py-12 text-[var(--brand-ink)]/68">
+            <p className="text-lg">Enter a customer issue above to see the full support story unfold.</p>
+            <p className="mt-2 text-sm">Example: &quot;Customer experiencing intermittent Azure networking failures&quot;</p>
+          </div>
+        )}
+      </div>
+    </main>
   );
 }
