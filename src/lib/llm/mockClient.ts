@@ -10,17 +10,23 @@ export class MockLlmClient implements LlmClient {
     // Simulate a tiny bit of latency so the UI's loading state is visible.
     await new Promise((resolve) => setTimeout(resolve, 300));
 
-    return [
+    // Returns the same JSON shape the real model is asked to produce, so the
+    // rest of the pipeline parses mock and real responses identically.
+    const customerMessage = [
       "Thanks for reaching out, and I'm sorry for the disruption this has caused.",
       "",
       "Here's what's happening in plain terms: we've seen this pattern before, and it's typically caused by a transient issue in the affected service rather than anything on your side. The good news is that there is a well-understood path to resolution.",
       "",
-      "What we're doing next:",
-      "1. Confirming the affected component against your recent activity.",
-      "2. Applying the mitigation that resolved similar past incidents.",
-      "3. Monitoring to make sure the fix holds before we close this out.",
-      "",
       "We'll keep you updated at each step so you always know what to expect. Thank you for your patience.",
     ].join("\n");
+
+    return JSON.stringify({
+      customerMessage,
+      recommendedActions: [
+        "Confirm the affected component against the customer's recent activity.",
+        "Apply the mitigation that resolved similar past incidents.",
+        "Monitor for recurrence before closing the case.",
+      ],
+    });
   }
 }

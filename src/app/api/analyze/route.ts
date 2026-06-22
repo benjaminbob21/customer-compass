@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import type { AnalyzeResponse } from "@/lib/types";
 import { findSimilarIncidents } from "@/lib/findSimilarIncidents";
-import { buildPrompt } from "@/lib/prompt";
-import { getLlmClient } from "@/lib/llm";
+import { generateGuidance } from "@/lib/generateGuidance";
 
 /**
  * POST /api/analyze
@@ -42,15 +41,11 @@ export async function POST(request: Request) {
   // 1. Retrieve similar historical incidents (Vanshika's layer).
   const similarIncidents = findSimilarIncidents(issue);
 
-  // 2. Build the prompt and ask the LLM for a customer-friendly message.
-  const prompt = buildPrompt(issue, similarIncidents);
-  const llm = getLlmClient();
-  const customerMessage = await llm.complete(prompt);
-
-  // 3. Derive recommended actions from the matched incidents' resolutions.
-  const recommendedActions = similarIncidents
-    .map((incident) => incident.resolution)
-    .slice(0, 3);
+  // 2. Ask the LLM for a customer-friendly message + next-best actions.
+  const { customerMessage, recommendedActions } = await generateGuidance(
+    issue,
+    similarIncidents,
+  );
 
   const response: AnalyzeResponse = {
     similarIncidents,
