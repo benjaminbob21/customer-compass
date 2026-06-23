@@ -6,6 +6,8 @@ import type { LlmClient } from "./client";
  * zero API keys. The real client will replace this and actually use the prompt.
  */
 export class MockLlmClient implements LlmClient {
+  readonly source = "mock" as const;
+
   async complete(_prompt: string): Promise<string> {
     // Simulate a tiny bit of latency so the UI's loading state is visible.
     await new Promise((resolve) => setTimeout(resolve, 300));
@@ -27,6 +29,26 @@ export class MockLlmClient implements LlmClient {
         "Apply the mitigation that resolved similar past incidents.",
         "Monitor for recurrence before closing the case.",
       ],
+      recommendedInvestigation: [
+        "Check recent configuration or deployment changes on the affected resource.",
+        "Review service health and dependency status in the impacted region.",
+        "Correlate the customer's error timestamps with known incident windows.",
+      ],
+      confidence: "83% similarity",
+      resolutionTimeline: "Historically resolved within 3 steps",
+      emailSubject: "Update on your Azure support issue",
+      emailBody: [
+        "Hi there,",
+        "",
+        "Thanks for reaching out, and I'm sorry for the disruption this has caused. We've reviewed similar incidents in our history and have a clear path forward.",
+        "",
+        "Our team is confirming the affected component, applying the mitigation that resolved similar past cases, and monitoring for recurrence before we close things out. We'll keep you updated at each step.",
+        "",
+        "Thank you for your patience.",
+        "",
+        "Best regards,",
+        "Microsoft Support",
+      ].join("\n"),
     });
   }
 }

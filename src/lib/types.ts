@@ -38,4 +38,16 @@ export interface AnalyzeResponse {
   recommendedActions: string[];
   /** AI-generated, customer-friendly explanation. */
   customerMessage: string;
+  /** Specific things the engineer should investigate to confirm the cause. */
+  recommendedInvestigation: string[];
+  /** AI-estimated match strength, e.g. "83% similarity". Generated, not computed. */
+  confidence: string;
+  /** AI-estimated resolution path, e.g. "Historically resolved within 3 steps". */
+  resolutionTimeline: string;
+  /** Email-safe subject line for the customer outreach message. */
+  emailSubject: string;
+  /** Email-safe body (the customer message formatted for an email client). */
+  emailBody: string;
+  /** Where the guidance came from: real Azure AI ("ai") or the mock fallback ("mock"). */
+  source: "ai" | "mock";
 }

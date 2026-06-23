@@ -34,15 +34,33 @@ export async function POST(request: Request) {
   const similarIncidents = findSimilarIncidents(issue);
 
   // 2. Ask the LLM for a customer-friendly message + next-best actions.
-  const { customerMessage, recommendedActions } = await generateGuidance(
-    issue,
-    similarIncidents,
-  );
+  const {
+    customerMessage,
+    recommendedActions,
+    recommendedInvestigation,
+    confidence,
+    resolutionTimeline,
+    emailSubject,
+    emailBody,
+    source,
+  } = await generateGuidance(issue, similarIncidents);
+
+  if (source === "mock") {
+    console.warn(
+      "[analyze] Mock LLM mode is active — Azure OpenAI credentials are not configured.",
+    );
+  }
 
   const response: AnalyzeResponse = {
     similarIncidents,
     recommendedActions,
     customerMessage,
+    recommendedInvestigation,
+    confidence,
+    resolutionTimeline,
+    emailSubject,
+    emailBody,
+    source,
   };
 
   return NextResponse.json(response);

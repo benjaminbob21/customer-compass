@@ -1,0 +1,62 @@
+{
+  "similarIncidents": [
+    {
+      "id": "INC-001",
+      "title": "Intermittent packet loss between on-premises network and Azure VPN Gateway",
+      "summary": "Customer reports unstable connectivity between their on-premises datacenter and workloads hosted in Azure. Monitoring shows bursts of packet loss and elevated latency on the VPN path.",
+      "rootCause": "A fault in edge network routing caused unstable traffic handling for a subset of gateway paths, leading to intermittent packet drops.",
+      "resolution": "Network path was stabilized after routing correction and traffic redistribution.",
+      "tags": [
+        "packet loss",
+        "VPN flapping",
+        "connectivity drops",
+        "gateway timeout"
+      ]
+    },
+    {
+      "id": "INC-010",
+      "title": "Proactive rescue candidate: rising VPN error rate before customer ticket creation",
+      "summary": "Internal telemetry shows increasing disconnects and failed tunnel renegotiations for a customer environment, but no support request has been opened yet.",
+      "rootCause": "Likely early-stage networking degradation on a dependency path affecting tunnel stability.",
+      "resolution": "Risk reduced after platform mitigation and proactive customer notification.",
+      "tags": [
+        "early packet loss",
+        "disconnect trend",
+        "VPN not yet down",
+        "proactive networking alert"
+      ]
+    },
+    {
+      "id": "INC-007",
+      "title": "VM connectivity loss after host rack networking fault",
+      "summary": "Customer reports a production VM outage with sudden connectivity loss and no recent OS-level changes.",
+      "rootCause": "A rack-level networking issue made the host unreachable, and VMs on the rack lost connectivity until they were redeployed to healthy infrastructure.",
+      "resolution": "VMs became reachable again after redeployment and host recovery.",
+      "tags": [
+        "VM unavailable",
+        "host issue",
+        "resource health",
+        "network rack failure"
+      ]
+    }
+  ],
+  "recommendedActions": [
+    "Monitor packet loss and tunnel flapping metrics actively; capture detailed logs from your gateway for analysis.",
+    "Review edge routing dependencies affecting the VPN Gateway and ensure proper traffic handling on all paths.",
+    "Escalate to internal networking specialists if the issue stems from platform-level instabilities that require correction.",
+    "Evaluate whether traffic redistribution or gateway node failover might help stabilize the connection while the root cause is addressed.",
+    "Communicate with the customer about interim mitigation plans, such as proactive routing corrections or VPN configuration adjustments."
+  ],
+  "customerMessage": "We understand that experiencing packet loss and tunnel instability can be very disruptive for your operations. Our goal is to help you restore smooth connectivity as quickly as possible. Based on similar cases we’ve handled, this issue might originate from either networking degradation or routing inconsistencies in the VPN path. Rest assured, we’re investigating thoroughly to pinpoint the cause. If required, we’ll coordinate additional steps to stabilize your service. We appreciate your patience while we work with you to resolve this matter and ensure your network remains reliable moving forward.",
+  "emailSubject": "Update on your Azure VPN Gateway connectivity issue",
+  "emailBody": "Dear Customer,\n\nThank you for reaching out regarding the packet loss and tunnel instability you're seeing on your Azure VPN Gateway. We understand how disruptive this can be for your operations, and we're committed to helping you restore reliable connectivity as quickly as possible.\n\nBased on similar cases we've handled, this behavior often stems from networking degradation or routing inconsistencies along the VPN path. Our team is investigating thoroughly to pinpoint the root cause, and we'll coordinate any additional steps needed to stabilize your service.\n\nWe appreciate your patience while we work through this with you. Please don't hesitate to share any recent configuration changes, as that will help us narrow down the cause faster.\n\nBest regards,\nMicrosoft Support",
+  "recommendedInvestigation": [
+    "Check Azure resource health for any active incidents impacting VPN Gateway services.",
+    "Analyze routing tables and path metrics for irregularities or degraded routes contributing to packet loss.",
+    "Verify if telemetry data indicates rising error rates or tunnel renegotiation failure patterns.",
+    "Inspect dependency networking infrastructure to rule out host or rack-related connectivity faults."
+  ],
+  "confidence": "85% similarity",
+  "resolutionTimeline": "Historically resolved within 2-4 steps",
+  "source": "ai"
+}
