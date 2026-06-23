@@ -8,6 +8,7 @@ import type { LlmClient } from "./client";
  * base URL, using the deployment name as `model`. No api-version needed.
  */
 export class AzureOpenAiClient implements LlmClient {
+  readonly source = "ai" as const;
   private readonly client: OpenAI;
   private readonly model: string;
 

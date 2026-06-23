@@ -48,6 +48,8 @@
     "Communicate with the customer about interim mitigation plans, such as proactive routing corrections or VPN configuration adjustments."
   ],
   "customerMessage": "We understand that experiencing packet loss and tunnel instability can be very disruptive for your operations. Our goal is to help you restore smooth connectivity as quickly as possible. Based on similar cases we’ve handled, this issue might originate from either networking degradation or routing inconsistencies in the VPN path. Rest assured, we’re investigating thoroughly to pinpoint the cause. If required, we’ll coordinate additional steps to stabilize your service. We appreciate your patience while we work with you to resolve this matter and ensure your network remains reliable moving forward.",
+  "emailSubject": "Update on your Azure VPN Gateway connectivity issue",
+  "emailBody": "Dear Customer,\n\nThank you for reaching out regarding the packet loss and tunnel instability you're seeing on your Azure VPN Gateway. We understand how disruptive this can be for your operations, and we're committed to helping you restore reliable connectivity as quickly as possible.\n\nBased on similar cases we've handled, this behavior often stems from networking degradation or routing inconsistencies along the VPN path. Our team is investigating thoroughly to pinpoint the root cause, and we'll coordinate any additional steps needed to stabilize your service.\n\nWe appreciate your patience while we work through this with you. Please don't hesitate to share any recent configuration changes, as that will help us narrow down the cause faster.\n\nBest regards,\nMicrosoft Support",
   "recommendedInvestigation": [
     "Check Azure resource health for any active incidents impacting VPN Gateway services.",
     "Analyze routing tables and path metrics for irregularities or degraded routes contributing to packet loss.",
@@ -55,5 +57,6 @@
     "Inspect dependency networking infrastructure to rule out host or rack-related connectivity faults."
   ],
   "confidence": "85% similarity",
-  "resolutionTimeline": "Historically resolved within 2-4 steps"
+  "resolutionTimeline": "Historically resolved within 2-4 steps",
+  "source": "ai"
 }

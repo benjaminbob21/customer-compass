@@ -36,7 +36,9 @@ export function buildPrompt(issue: string, incidents: Incident[]): string {
     '  "recommendedActions": ["concrete internal step for the engineer", "..."],',
     '  "recommendedInvestigation": ["specific thing to check to confirm the cause", "..."],',
     '  "confidence": "82% similarity",',
-    '  "resolutionTimeline": "Historically resolved within 3 steps"',
+    '  "resolutionTimeline": "Historically resolved within 3 steps",',
+    '  "emailSubject": "short, specific subject line for the customer email",',
+    '  "emailBody": "the customer message formatted as a plain-text email"',
     "}",
     "",
     "Guidance for each field:",
@@ -47,5 +49,8 @@ export function buildPrompt(issue: string, incidents: Incident[]): string {
     '- confidence: a real percentage YOU choose based on how closely the past incidents match, e.g. "78% similarity". Never output the literal "NN".',
     '- resolutionTimeline: a short phrase with a real number, e.g. "Historically resolved within 3 steps".',
     "  Estimate confidence and resolutionTimeline from the incidents provided; never leave them blank or use placeholders.",
+    "- emailSubject: a concise, customer-ready subject line (no markdown, no quotes).",
+    "- emailBody: the customerMessage adapted into a plain-text email. Start with a greeting and end with a sign-off.",
+    "  Use plain text only: no markdown, no asterisks, no code fences, no JSON. Use real line breaks between paragraphs.",
   ].join("\n");
 }

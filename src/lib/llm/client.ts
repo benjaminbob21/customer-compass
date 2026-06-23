@@ -6,6 +6,8 @@
  * later without touching the route or prompt code.
  */
 export interface LlmClient {
+  /** Whether this client talks to the real model ("ai") or is the mock ("mock"). */
+  readonly source: "ai" | "mock";
   /** Send a prompt, get back the model's text completion. */
   complete(prompt: string): Promise<string>;
 }

@@ -44,4 +44,10 @@ export interface AnalyzeResponse {
   confidence: string;
   /** AI-estimated resolution path, e.g. "Historically resolved within 3 steps". */
   resolutionTimeline: string;
+  /** Email-safe subject line for the customer outreach message. */
+  emailSubject: string;
+  /** Email-safe body (the customer message formatted for an email client). */
+  emailBody: string;
+  /** Where the guidance came from: real Azure AI ("ai") or the mock fallback ("mock"). */
+  source: "ai" | "mock";
 }
