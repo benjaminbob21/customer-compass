@@ -9,6 +9,7 @@ import PageHero from "@/components/PageHero";
 import ImpactDashboard from "@/components/ImpactDashboard";
 import Card from "@/components/Card";
 import { mockImpactMetrics } from "@/lib/mockData";
+import Link from "next/link";
 
 export default function ImpactPage() {
   return (
@@ -62,9 +63,12 @@ export default function ImpactPage() {
 
         {/* Call to Action */}
         <div className="text-center py-8">
-          <button className="brand-button rounded-2xl px-8 py-3 text-lg font-bold text-white transition-colors">
-            Start Your Impact Journey
-          </button>
+          <Link
+            href="/"
+            className="brand-button inline-flex rounded-2xl px-8 py-3 text-lg font-bold !text-white transition-colors"
+          >
+            Start Your Journey
+          </Link>
         </div>
       </div>
     </main>

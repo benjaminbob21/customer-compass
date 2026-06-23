@@ -9,9 +9,14 @@ import PageHero from "@/components/PageHero";
 import ProactiveRescueCard from "@/components/ProactiveRescueCard";
 import Card from "@/components/Card";
 import { mockProactiveRescueScenario } from "@/lib/mockData";
+import Link from "next/link";
 
 export default function RescuePage() {
   const scenario = mockProactiveRescueScenario;
+  const outreachSubject = `Proactive Support Guidance for ${scenario.customer}`;
+  const outreachMailtoHref = `mailto:?subject=${encodeURIComponent(outreachSubject)}&body=${encodeURIComponent(
+    scenario.recommendedOutreach,
+  )}`;
 
   return (
     <main className="flex-1">
@@ -47,6 +52,14 @@ export default function RescuePage() {
             <pre className="whitespace-pre-wrap text-gray-800 font-sans">
               {scenario.recommendedOutreach}
             </pre>
+            <div className="mt-6">
+              <a
+                href={outreachMailtoHref}
+                className="brand-button inline-flex rounded-2xl px-6 py-3 font-bold text-white transition-colors"
+              >
+                Send Outreach Email
+              </a>
+            </div>
           </Card>
         </div>
 
@@ -108,9 +121,12 @@ export default function RescuePage() {
 
         {/* Call to Action */}
         <div className="text-center py-12">
-          <button className="brand-button rounded-2xl px-8 py-4 text-lg font-bold text-white transition-colors">
-            Enable Proactive Rescue for Your Customers
-          </button>
+          <Link
+            href="/future-vision"
+            className="brand-button inline-flex rounded-2xl px-8 py-4 text-lg font-bold text-white transition-colors"
+          >
+            View Proactive Rescue Roadmap
+          </Link>
         </div>
       </div>
     </main>

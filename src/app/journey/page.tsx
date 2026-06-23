@@ -8,6 +8,7 @@
 import PageHero from "@/components/PageHero";
 import CustomerJourney from "@/components/CustomerJourney";
 import Card from "@/components/Card";
+import Link from "next/link";
 import {
   mockCustomerJourneyBefore,
   mockCustomerJourneyAfter,
@@ -71,12 +72,18 @@ export default function JourneyPage() {
 
         {/* Call to Action */}
         <div className="text-center py-12">
-          <button className="brand-button mr-4 rounded-2xl px-8 py-4 text-lg font-bold text-white transition-colors">
+          <Link
+            href="/"
+            className="brand-button mr-4 inline-flex rounded-2xl px-8 py-4 text-lg font-bold !text-white transition-colors"
+          >
             Start Your Journey
-          </button>
-          <button className="brand-outline-button rounded-2xl px-8 py-4 text-lg font-bold transition-colors">
+          </Link>
+          <Link
+            href="/impact"
+            className="brand-outline-button inline-flex rounded-2xl px-8 py-4 text-lg font-bold transition-colors"
+          >
             Learn More
-          </button>
+          </Link>
         </div>
       </div>
     </main>
