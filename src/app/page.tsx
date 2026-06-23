@@ -13,22 +13,13 @@ import IssueForm from "@/components/IssueForm";
 import AnalysisResults from "@/components/AnalysisResults";
 import { analyzeIssue } from "@/api/client";
 import BrandLogo from "@/components/BrandLogo";
-
-interface AnalysisResult {
-  similarIncidents: Array<{
-    id: string;
-    title: string;
-    resolution: string;
-  }>;
-  recommendedActions: string[];
-  customerMessage: string;
-}
+import type { AnalyzeResponse } from "@/lib/types";
 
 export default function Home() {
   // State management
   const [issue, setIssue] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
-  const [results, setResults] = useState<AnalysisResult | null>(null);
+  const [results, setResults] = useState<AnalyzeResponse | null>(null);
   const [error, setError] = useState<string>("");
 
   /**

@@ -3,17 +3,9 @@ import type { AnalyzeResponse } from "@/lib/types";
 import { findSimilarIncidents } from "@/lib/findSimilarIncidents";
 import { generateGuidance } from "@/lib/generateGuidance";
 
-/**
- * POST /api/analyze
- *
- * Body: { "issue": "Customer experiencing intermittent networking failures." }
- * Returns: AnalyzeResponse { similarIncidents, recommendedActions, customerMessage }
- *
- * This is the heart of the backend pipeline:
- *   issue -> find similar incidents -> build prompt -> call LLM -> response
- */
+// POST /api/analyze
+// Body: { issue: string } -> AnalyzeResponse
 export async function POST(request: Request) {
-  // Parse and validate input at the boundary.
   let body: unknown;
   try {
     body = await request.json();
@@ -38,7 +30,7 @@ export async function POST(request: Request) {
     );
   }
 
-  // 1. Retrieve similar historical incidents (Vanshika's layer).
+  // 1. Retrieve similar historical incidents.
   const similarIncidents = findSimilarIncidents(issue);
 
   // 2. Ask the LLM for a customer-friendly message + next-best actions.

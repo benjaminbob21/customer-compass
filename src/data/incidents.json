@@ -1,0 +1,904 @@
+[
+  {
+    "id": "INC-001",
+    "title": "Intermittent packet loss between on-premises network and Azure VPN Gateway",
+    "service": "Azure VPN Gateway",
+    "category": "Networking",
+    "severity": "Sev1",
+    "regions": [
+      "US Central"
+    ],
+    "customer": "Contoso Retail",
+    "industry": "Retail",
+    "symptoms": [
+      "site-to-site VPN tunnel flapping",
+      "intermittent application timeouts",
+      "sporadic packet loss during business hours"
+    ],
+    "problemDescription": "Customer reports unstable connectivity between their on-premises datacenter and workloads hosted in Azure. Monitoring shows bursts of packet loss and elevated latency on the VPN path.",
+    "rootCause": "A fault in edge network routing caused unstable traffic handling for a subset of gateway paths, leading to intermittent packet drops.",
+    "mitigation": [
+      "Rerouted traffic to a healthy edge path.",
+      "Increased monitoring on impacted gateways.",
+      "Shared temporary workaround guidance for failover tunnel validation."
+    ],
+    "resolution": "Network path was stabilized after routing correction and traffic redistribution.",
+    "prevention": [
+      "Improved edge path validation checks.",
+      "Added alerting on packet-loss bursts.",
+      "Expanded predeployment validation for routing changes."
+    ],
+    "customerSummary": "We identified a platform-side networking issue that intermittently impacted connectivity between your on-premises environment and Azure. Service was restored after traffic was redirected to healthy network paths. We are implementing additional validation and monitoring to reduce the likelihood of recurrence.",
+    "recommendedInvestigation": [
+      "Check tunnel health and gateway metrics.",
+      "Compare affected paths against healthy region pairs.",
+      "Review recent routing or maintenance events."
+    ],
+    "similarIncidentHints": [
+      "packet loss",
+      "VPN flapping",
+      "connectivity drops",
+      "gateway timeout"
+    ],
+    "documentation": [
+      {
+        "title": "Azure Service Health incident history",
+        "type": "Service Health",
+        "snippet": "Check incident history and RCA availability for region-specific networking events."
+      },
+      {
+        "title": "Network mitigation runbook",
+        "type": "Runbook",
+        "snippet": "Validate tunnel state, packet drop trends, and failover behavior."
+      }
+    ],
+    "communicationDraft": "We are investigating intermittent connectivity affecting traffic between your on-premises environment and Azure. Current evidence points to a platform networking issue affecting a subset of paths. We have applied mitigation to stabilize traffic and will provide the next update once validation is complete.",
+    "proactiveRescueCandidate": false,
+    "trustSignals": [
+      "Customer impact acknowledged quickly",
+      "Clear mitigation in progress",
+      "Next update committed"
+    ]
+  },
+  {
+    "id": "INC-002",
+    "title": "Azure Front Door returns timeout errors after configuration propagation issue",
+    "service": "Azure Front Door",
+    "category": "Networking",
+    "severity": "Sev1",
+    "regions": [
+      "Global"
+    ],
+    "customer": "Fabrikam Media",
+    "industry": "Media",
+    "symptoms": [
+      "Customer app unavailable from multiple geographies",
+      "DNS resolution issues",
+      "Timeout errors at edge endpoints"
+    ],
+    "problemDescription": "Customer reports that public-facing web applications became unreachable from several regions following a configuration update window.",
+    "rootCause": "An incompatible configuration state was propagated to a subset of edge locations, causing failures in request routing and name resolution.",
+    "mitigation": [
+      "Halted further propagation.",
+      "Rolled back the incompatible configuration version.",
+      "Isolated retry traffic away from the impacted edge path."
+    ],
+    "resolution": "Service recovered after rollback and edge configuration stabilization.",
+    "prevention": [
+      "Added stricter compatibility validation.",
+      "Improved staged rollout safety checks.",
+      "Added retry amplification guardrails."
+    ],
+    "customerSummary": "A platform-level configuration propagation issue affected traffic routing through Azure Front Door, which caused timeouts and intermittent resolution failures. The issue was mitigated by rolling back the incompatible configuration and stabilizing affected edge locations.",
+    "recommendedInvestigation": [
+      "Review edge health by geography.",
+      "Check recent configuration rollout history.",
+      "Compare failure rates before and after rollback."
+    ],
+    "similarIncidentHints": [
+      "Front Door timeout",
+      "edge issue",
+      "global outage",
+      "DNS problem"
+    ],
+    "documentation": [
+      {
+        "title": "Front Door rollback playbook",
+        "type": "Runbook",
+        "snippet": "Use staged rollback and verify edge consistency before resuming rollout."
+      }
+    ],
+    "communicationDraft": "We have identified a platform-side issue affecting traffic routing through Azure Front Door. Mitigation actions are underway, including rollback of the affected configuration. We will continue to share updates as service stability is verified across impacted regions.",
+    "proactiveRescueCandidate": false,
+    "trustSignals": [
+      "Global impact stated clearly",
+      "Rollback explained",
+      "Validation step communicated"
+    ]
+  },
+  {
+    "id": "INC-003",
+    "title": "Azure PostgreSQL Flexible Server unavailable due to underlying storage degradation",
+    "service": "Azure Database for PostgreSQL",
+    "category": "Database",
+    "severity": "Sev2",
+    "regions": [
+      "South Central US"
+    ],
+    "customer": "Northwind Health",
+    "industry": "Healthcare",
+    "symptoms": [
+      "Database connection refused",
+      "Application downtime",
+      "Read/write failures before outage"
+    ],
+    "problemDescription": "Customer reports that a production application cannot connect to PostgreSQL Flexible Server and saw elevated database latency shortly before the service became unavailable.",
+    "rootCause": "The host node experienced storage-layer degradation that triggered protective recovery actions and temporarily took the service offline.",
+    "mitigation": [
+      "Migrated the workload to healthy infrastructure.",
+      "Replaced the degraded storage volume.",
+      "Validated database recovery."
+    ],
+    "resolution": "Database service was restored after automated recovery and storage replacement completed.",
+    "prevention": [
+      "Enhanced proactive hardware health checks.",
+      "Improved storage fault correlation.",
+      "Expanded resilience testing for the failover path."
+    ],
+    "customerSummary": "The service interruption was caused by an infrastructure storage fault. Azure automatically moved the workload to healthy infrastructure and restored availability. No customer action was required after recovery.",
+    "recommendedInvestigation": [
+      "Check platform fault telemetry.",
+      "Confirm failover timing.",
+      "Validate application reconnection behavior."
+    ],
+    "similarIncidentHints": [
+      "pgsql offline",
+      "disk issue",
+      "storage degradation",
+      "database unavailable"
+    ],
+    "documentation": [
+      {
+        "title": "Database recovery SOP",
+        "type": "Runbook",
+        "snippet": "Correlate storage fault alerts with database availability events."
+      }
+    ],
+    "communicationDraft": "We confirmed that the interruption was caused by an infrastructure storage fault affecting the host running your database service. Automated recovery actions restored service on healthy infrastructure. We are monitoring the environment closely and do not currently require customer-side action.",
+    "proactiveRescueCandidate": false,
+    "trustSignals": [
+      "Platform issue stated plainly",
+      "No customer action clarified",
+      "Recovery path explained"
+    ]
+  },
+  {
+    "id": "INC-004",
+    "title": "AKS ingress failures caused by DNS resolution instability",
+    "service": "Azure Kubernetes Service",
+    "category": "Compute",
+    "severity": "Sev2",
+    "regions": [
+      "West Europe"
+    ],
+    "customer": "Adventure Works Commerce",
+    "industry": "E-commerce",
+    "symptoms": [
+      "Pods healthy but external access failing",
+      "Intermittent 502 and 504 errors",
+      "DNS lookup failures from ingress controller"
+    ],
+    "problemDescription": "Customer reports intermittent external access failures to AKS-hosted applications despite healthy pod status.",
+    "rootCause": "DNS resolution instability in the ingress dependency chain caused routing failures for external traffic.",
+    "mitigation": [
+      "Shifted workloads to a healthy DNS path.",
+      "Restarted impacted ingress components.",
+      "Reduced retry amplification during recovery."
+    ],
+    "resolution": "Ingress traffic normalized after DNS dependency stabilization and controller recovery.",
+    "prevention": [
+      "Improved DNS dependency health probing.",
+      "Added faster ingress anomaly detection.",
+      "Expanded fallback routing coverage."
+    ],
+    "customerSummary": "Your application issue was caused by instability in a dependency used for external routing rather than by an AKS workload failure. Traffic was restored after stabilizing the affected dependency path and validating ingress recovery.",
+    "recommendedInvestigation": [
+      "Compare pod health with ingress health.",
+      "Check DNS resolution metrics.",
+      "Review ingress-controller restart events."
+    ],
+    "similarIncidentHints": [
+      "AKS 502",
+      "ingress issue",
+      "DNS lookup failure",
+      "pods healthy app down"
+    ],
+    "documentation": [
+      {
+        "title": "AKS ingress troubleshooting guide",
+        "type": "KB",
+        "snippet": "Differentiate cluster health issues from routing or DNS dependencies."
+      }
+    ],
+    "communicationDraft": "We have confirmed that your AKS workloads remained healthy and the disruption was related to external request routing. Mitigation has been applied to stabilize the affected dependency path, and service is recovering. We’ll continue monitoring until stability is confirmed.",
+    "proactiveRescueCandidate": false,
+    "trustSignals": [
+      "Workload health clarified",
+      "Symptom separated from cause",
+      "Monitoring commitment included"
+    ]
+  },
+  {
+    "id": "INC-005",
+    "title": "Azure OpenAI request failures during backend proxy memory pressure event",
+    "service": "Azure OpenAI",
+    "category": "AI",
+    "severity": "Sev1",
+    "regions": [
+      "East US",
+      "West Europe"
+    ],
+    "customer": "Fourth Coffee",
+    "industry": "Hospitality",
+    "symptoms": [
+      "Intermittent request failures",
+      "Elevated latency",
+      "Chat completion requests timing out"
+    ],
+    "problemDescription": "Customers AI application experiences elevated failures and unstable response times for prompt completion requests.",
+    "rootCause": "A backend request-proxy component became unstable under production load because of insufficient memory allocation, causing repeated restarts and request routing failures.",
+    "mitigation": [
+      "Increased memory allocation.",
+      "Drained unhealthy proxy instances.",
+      "Rebalanced traffic to stable backends."
+    ],
+    "resolution": "Service stabilized after capacity adjustments and backend rebalance.",
+    "prevention": [
+      "Added better capacity thresholds for the proxy layer.",
+      "Improved memory-pressure alerting.",
+      "Expanded load-test coverage for saturation behavior."
+    ],
+    "customerSummary": "A backend platform component responsible for request routing became unstable under load, which led to intermittent failures and latency. The service recovered after the platform team adjusted capacity and redistributed traffic.",
+    "recommendedInvestigation": [
+      "Check request success rate signals.",
+      "Review proxy restart history.",
+      "Compare regional capacity saturation."
+    ],
+    "similarIncidentHints": [
+      "Azure OpenAI latency",
+      "request failure",
+      "backend proxy issue",
+      "intermittent completions"
+    ],
+    "documentation": [
+      {
+        "title": "Service Health and RCA history",
+        "type": "Service Health",
+        "snippet": "Use official incident history to correlate region and timing."
+      }
+    ],
+    "communicationDraft": "We identified instability in a platform request-routing component serving Azure OpenAI traffic. Mitigation has been applied to restore stability, and we are monitoring request success and latency closely. We’ll share a follow-up update with prevention actions once validation is complete.",
+    "proactiveRescueCandidate": false,
+    "trustSignals": [
+      "Root-cause category shared",
+      "Impact area named",
+      "Follow-up commitment made"
+    ]
+  },
+  {
+    "id": "INC-006",
+    "title": "NetApp Files mount failures during migration window",
+    "service": "Azure NetApp Files",
+    "category": "Storage",
+    "severity": "Sev2",
+    "regions": [
+      "West US"
+    ],
+    "customer": "Litware Legal",
+    "industry": "Legal",
+    "symptoms": [
+      "Volumes fail to mount",
+      "Connectivity restored after retry",
+      "Migration activity blocked"
+    ],
+    "problemDescription": "Customer reports inability to mount Azure NetApp Files volumes during a scheduled migration window.",
+    "rootCause": "A failed handshake in the SDN stack prevented timely NIC updates to the backend appliance handling affected volume connectivity.",
+    "mitigation": [
+      "Redirected traffic to a healthy backend appliance.",
+      "Restarted the network agent on the impacted path.",
+      "Customer paused the migration to reduce additional risk."
+    ],
+    "resolution": "Connectivity was restored after backend NIC programming was recovered.",
+    "prevention": [
+      "Rolled out a fix for the failed handshake condition.",
+      "Added stronger SDN validation before migration scenarios.",
+      "Improved maintenance-window readiness checks."
+    ],
+    "customerSummary": "The issue was caused by a networking control-path fault affecting storage connectivity rather than by a customer configuration error. Connectivity was restored after engineering intervention on the backend path.",
+    "recommendedInvestigation": [
+      "Check mount failure timestamps.",
+      "Review network-agent events.",
+      "Validate backend appliance health."
+    ],
+    "similarIncidentHints": [
+      "NetApp mount failure",
+      "volume connectivity",
+      "migration blocked",
+      "NIC update issue"
+    ],
+    "documentation": [
+      {
+        "title": "Storage migration readiness checklist",
+        "type": "Runbook",
+        "snippet": "Validate network and backend appliance health before maintenance windows."
+      }
+    ],
+    "communicationDraft": "We have traced the storage connectivity issue to a platform networking control-path problem affecting the backend path used by your volumes. Connectivity has been restored, and we recommend rescheduling the migration only after validation is complete. We will provide a final RCA summary separately.",
+    "proactiveRescueCandidate": false,
+    "trustSignals": [
+      "Customer not blamed",
+      "Workload-specific advice provided",
+      "Next step clearly stated"
+    ]
+  },
+  {
+    "id": "INC-007",
+    "title": "VM connectivity loss after host rack networking fault",
+    "service": "Azure Virtual Machines",
+    "category": "Compute",
+    "severity": "Sev2",
+    "regions": [
+      "UK South"
+    ],
+    "customer": "Tailspin Toys",
+    "industry": "Manufacturing",
+    "symptoms": [
+      "VM unreachable",
+      "Application health checks fail",
+      "Resource health reports unavailability"
+    ],
+    "problemDescription": "Customer reports a production VM outage with sudden connectivity loss and no recent OS-level changes.",
+    "rootCause": "A rack-level networking issue made the host unreachable, and VMs on the rack lost connectivity until they were redeployed to healthy infrastructure.",
+    "mitigation": [
+      "Triggered the host recovery workflow.",
+      "Redeployed impacted VMs to a healthy rack.",
+      "Published root-cause details through health telemetry."
+    ],
+    "resolution": "VMs became reachable again after redeployment and host recovery.",
+    "prevention": [
+      "Improved rack fault isolation.",
+      "Enabled faster root-cause publication in health history.",
+      "Expanded network resilience repairs."
+    ],
+    "customerSummary": "The outage was caused by an Azure infrastructure fault affecting the host environment, not by an issue within your VM guest OS. Recovery completed after Azure moved the impacted workload to healthy infrastructure.",
+    "recommendedInvestigation": [
+      "Compare platform health with guest logs.",
+      "Check resource health root-cause annotations.",
+      "Review host redeployment events."
+    ],
+    "similarIncidentHints": [
+      "VM unavailable",
+      "host issue",
+      "resource health",
+      "network rack failure"
+    ],
+    "documentation": [
+      {
+        "title": "Azure resource health history",
+        "type": "Monitoring",
+        "snippet": "Use health history to correlate downtime and later-published root cause."
+      }
+    ],
+    "communicationDraft": "The issue was caused by an infrastructure-level Azure host connectivity problem. Recovery actions have been completed and your VM is now running on healthy infrastructure. We’re validating full stability and will provide any additional follow-up guidance if needed.",
+    "proactiveRescueCandidate": false,
+    "trustSignals": [
+      "Platform versus guest OS clarified",
+      "Status is explicit",
+      "Validation still in progress"
+    ]
+  },
+  {
+    "id": "INC-008",
+    "title": "Entra ID sign-in degradation due to token validation dependency issue",
+    "service": "Microsoft Entra ID",
+    "category": "Identity",
+    "severity": "Sev1",
+    "regions": [
+      "Europe"
+    ],
+    "customer": "Proseware Bank",
+    "industry": "Finance",
+    "symptoms": [
+      "Users unable to sign in",
+      "Token acquisition failures",
+      "Authentication disruption across multiple apps"
+    ],
+    "problemDescription": "Customer experiences tenant-wide sign-in failures affecting several internal applications.",
+    "rootCause": "A dependency in the token validation path became unhealthy, causing sign-in requests to fail intermittently before broader degradation.",
+    "mitigation": [
+      "Shifted authentication traffic to a healthy dependency pool.",
+      "Increased capacity on the validation tier.",
+      "Added temporary throttling to protect downstream services."
+    ],
+    "resolution": "Authentication success rates returned to normal after dependency recovery and traffic rebalance.",
+    "prevention": [
+      "Improved dependency isolation.",
+      "Added earlier sign-in failure trend detection.",
+      "Expanded resilience testing for fallback paths."
+    ],
+    "customerSummary": "The sign-in issue was caused by a platform dependency in the authentication path rather than by a tenant configuration change. Service recovered after traffic was shifted and the unhealthy dependency recovered.",
+    "recommendedInvestigation": [
+      "Check sign-in logs for the failure pattern.",
+      "Compare app impact breadth.",
+      "Review dependency failover behavior."
+    ],
+    "similarIncidentHints": [
+      "login failure",
+      "token issue",
+      "authentication outage",
+      "sign-in degraded"
+    ],
+    "documentation": [
+      {
+        "title": "Authentication outage communications template",
+        "type": "KB",
+        "snippet": "State customer impact, mitigation, and workaround visibility clearly."
+      }
+    ],
+    "communicationDraft": "We are investigating a platform issue affecting sign-in requests for your tenant. Current evidence points to instability in an authentication dependency, and mitigation is in progress. We understand the broad impact and will continue sharing updates as recovery is validated.",
+    "proactiveRescueCandidate": false,
+    "trustSignals": [
+      "Broad impact acknowledged",
+      "Root-cause direction shared early",
+      "Update ownership visible"
+    ]
+  },
+  {
+    "id": "INC-009",
+    "title": "Service Bus message delays after regional throughput imbalance",
+    "service": "Azure Service Bus",
+    "category": "Messaging",
+    "severity": "Sev2",
+    "regions": [
+      "North Europe"
+    ],
+    "customer": "Woodgrove Logistics",
+    "industry": "Logistics",
+    "symptoms": [
+      "Message backlog increasing",
+      "Sporadic processing delays",
+      "Queue age rising while consumers appear healthy"
+    ],
+    "problemDescription": "Customer reports that downstream processing is delayed because Service Bus queues are accumulating messages faster than normal.",
+    "rootCause": "A capacity imbalance in the messaging backend reduced effective throughput for a subset of namespaces.",
+    "mitigation": [
+      "Rebalanced namespace traffic.",
+      "Added temporary processing capacity.",
+      "Drained backlog with controlled recovery."
+    ],
+    "resolution": "Queue processing returned to expected throughput and backlog began clearing.",
+    "prevention": [
+      "Added better namespace saturation alerts.",
+      "Improved earlier imbalance detection.",
+      "Automated throughput redistribution recovery."
+    ],
+    "customerSummary": "The issue was not caused by your consumer applications but by a temporary platform throughput imbalance affecting message processing. Throughput has been restored and the backlog is draining.",
+    "recommendedInvestigation": [
+      "Measure queue age growth.",
+      "Check namespace throughput counters.",
+      "Compare producer and consumer rates."
+    ],
+    "similarIncidentHints": [
+      "Service Bus delay",
+      "queue backlog",
+      "throughput drop",
+      "message lag"
+    ],
+    "documentation": [
+      {
+        "title": "Messaging backlog investigation guide",
+        "type": "Runbook",
+        "snippet": "Differentiate client-side slow consumers from service-side throughput loss."
+      }
+    ],
+    "communicationDraft": "We identified a temporary platform throughput imbalance affecting message processing for your namespace. Mitigation is in place, throughput has improved, and any accumulated backlog is now draining. We’ll continue monitoring until queue age returns to baseline.",
+    "proactiveRescueCandidate": false,
+    "trustSignals": [
+      "Consumer app health clarified",
+      "Recovery trajectory described",
+      "Baseline monitoring noted"
+    ]
+  },
+  {
+    "id": "INC-010",
+    "title": "Proactive rescue candidate: rising VPN error rate before customer ticket creation",
+    "service": "Azure VPN Gateway",
+    "category": "Networking",
+    "severity": "Sev3",
+    "regions": [
+      "West Europe"
+    ],
+    "customer": "Blue Yonder Travel",
+    "industry": "Travel",
+    "symptoms": [
+      "Gateway disconnect rate trending up",
+      "Latency spikes observed in telemetry",
+      "No customer ticket yet"
+    ],
+    "problemDescription": "Internal telemetry shows increasing disconnects and failed tunnel renegotiations for a customer environment, but no support request has been opened yet.",
+    "rootCause": "Likely early-stage networking degradation on a dependency path affecting tunnel stability.",
+    "mitigation": [
+      "Flagged the account for proactive outreach.",
+      "Triggered internal review of incident history and region health.",
+      "Prepared a customer-ready advisory with self-check guidance."
+    ],
+    "resolution": "Risk reduced after platform mitigation and proactive customer notification.",
+    "prevention": [
+      "Added automated threshold-based outreach.",
+      "Linked telemetry anomalies to similar incidents.",
+      "Created notification templates for pre-incident rescue."
+    ],
+    "customerSummary": "We detected signs of degraded VPN tunnel stability affecting your environment and proactively reviewed the issue before a complete outage occurred. We’re sharing guidance and monitoring closely to help reduce business impact.",
+    "recommendedInvestigation": [
+      "Compare the anomaly with prior packet-loss incidents.",
+      "Review current Service Health signals for the region.",
+      "Validate customer failover tunnel readiness."
+    ],
+    "similarIncidentHints": [
+      "early packet loss",
+      "disconnect trend",
+      "VPN not yet down",
+      "proactive networking alert"
+    ],
+    "documentation": [
+      {
+        "title": "Proactive rescue playbook",
+        "type": "Runbook",
+        "snippet": "Use anomaly detection, similar incident retrieval, and customer-ready outreach."
+      }
+    ],
+    "communicationDraft": "We noticed signs of degraded VPN tunnel stability affecting your Azure environment and wanted to reach out proactively. At this stage, the issue appears intermittent, and we’re actively monitoring and validating mitigation. We recommend reviewing failover readiness while we continue our investigation.",
+    "proactiveRescueCandidate": true,
+    "trustSignals": [
+      "Microsoft reached out before full outage",
+      "Actionable next step shared",
+      "Risk explained without alarmism"
+    ]
+  },
+  {
+    "id": "INC-011",
+    "title": "Proactive rescue candidate: storage latency anomaly on business-critical database tier",
+    "service": "Azure Managed Disks",
+    "category": "Storage",
+    "severity": "Sev3",
+    "regions": [
+      "East US 2"
+    ],
+    "customer": "Humongous Insurance",
+    "industry": "Insurance",
+    "symptoms": [
+      "Storage latency gradually increasing",
+      "Application still available",
+      "Database IOPS nearing threshold"
+    ],
+    "problemDescription": "Telemetry suggests rising latency on the storage layer of a business-critical workload before a visible application outage has occurred.",
+    "rootCause": "Likely emerging infrastructure saturation or a degraded storage path affecting disk performance.",
+    "mitigation": [
+      "Routed the case to engineering review.",
+      "Notified the customer with a performance-risk summary.",
+      "Recommended short-term scaling and alert validation."
+    ],
+    "resolution": "Customer impact was avoided after preventive scaling and backend stabilization.",
+    "prevention": [
+      "Added better predictive storage-risk scoring.",
+      "Correlated performance anomalies to related incidents.",
+      "Expanded proactive account health notifications."
+    ],
+    "customerSummary": "We detected an elevated risk to workload performance caused by underlying storage latency patterns and reached out before the issue became service-impacting. Preventive mitigation reduced the chance of customer-visible disruption.",
+    "recommendedInvestigation": [
+      "Correlate storage metrics with historical latency incidents.",
+      "Check for noisy-neighbor or hardware risk indicators.",
+      "Review customer alert coverage."
+    ],
+    "similarIncidentHints": [
+      "latency rising",
+      "storage risk",
+      "IOPS threshold",
+      "proactive performance rescue"
+    ],
+    "documentation": [
+      {
+        "title": "Predictive performance anomaly SOP",
+        "type": "Monitoring",
+        "snippet": "Escalate when latency trends match known incident fingerprints."
+      }
+    ],
+    "communicationDraft": "We are reaching out proactively because our monitoring detected a rising storage-latency pattern that could affect your workload if left unaddressed. Your application is currently available, but we recommend validating alerting and reviewing short-term scaling options while we continue platform-side mitigation.",
+    "proactiveRescueCandidate": true,
+    "trustSignals": [
+      "Proactive warning",
+      "Business impact framed clearly",
+      "Customer action kept simple"
+    ]
+  },
+  {
+    "id": "INC-012",
+    "title": "Proactive rescue candidate: AI application nearing regional capacity saturation",
+    "service": "Azure OpenAI",
+    "category": "AI",
+    "severity": "Sev3",
+    "regions": [
+      "West Europe"
+    ],
+    "customer": "Alpine Education",
+    "industry": "Education",
+    "symptoms": [
+      "95th percentile latency increasing",
+      "Burst pattern suggests near-term throttling risk",
+      "No outage yet"
+    ],
+    "problemDescription": "Telemetry indicates that a customer is approaching a capacity pattern that closely matches previous Azure OpenAI latency incidents.",
+    "rootCause": "Projected demand surge combined with regional service pressure may increase latency or intermittent request failures if not mitigated early.",
+    "mitigation": [
+      "Proactively flagged the workload risk.",
+      "Suggested temporary traffic shaping or secondary-region readiness.",
+      "Prepared customer messaging before visible degradation."
+    ],
+    "resolution": "Customer avoided peak-hour disruption after preventive routing and workload adjustments.",
+    "prevention": [
+      "Added predictive risk alerts for burst traffic.",
+      "Improved regional capacity advisories.",
+      "Expanded guidance for burst smoothing."
+    ],
+    "customerSummary": "We identified a pattern in your request traffic that may lead to latency or intermittent failures if demand continues to increase. We are proactively sharing guidance to help reduce potential impact and are monitoring regional health closely.",
+    "recommendedInvestigation": [
+      "Compare the current latency curve with prior incidents.",
+      "Review burst windows and concurrency.",
+      "Assess secondary-region fallback readiness."
+    ],
+    "similarIncidentHints": [
+      "OpenAI latency trend",
+      "burst traffic",
+      "capacity risk",
+      "proactive AI rescue"
+    ],
+    "documentation": [
+      {
+        "title": "AI workload burst preparedness guide",
+        "type": "KB",
+        "snippet": "Identify burst patterns and pre-stage fallback or rate-shaping options."
+      }
+    ],
+    "communicationDraft": "We are contacting you proactively because your workload is showing traffic patterns that may increase the risk of latency during peak demand. Your service remains available, but we recommend validating fallback options and reviewing burst controls while we continue monitoring and tuning platform capacity.",
+    "proactiveRescueCandidate": true,
+    "trustSignals": [
+      "Before-incident outreach",
+      "Clear risk framing",
+      "Practical expectation setting"
+    ]
+  },
+  {
+    "id": "INC-013",
+    "title": "Azure SQL Database failover delay during planned maintenance window",
+    "service": "Azure SQL Database",
+    "category": "Database",
+    "severity": "Sev2",
+    "regions": [
+      "West Europe"
+    ],
+    "customer": "Wide World Importers",
+    "industry": "Distribution",
+    "symptoms": [
+      "Connection retries during maintenance",
+      "Failover took longer than expected",
+      "Short application brownout"
+    ],
+    "problemDescription": "Customer reports that a planned platform maintenance event caused a longer-than-expected failover for a production Azure SQL Database workload.",
+    "rootCause": "A failover dependency in the control workflow responded more slowly than expected under concurrent maintenance load, extending the switchover time.",
+    "mitigation": [
+      "Prioritized failover completion for impacted databases.",
+      "Held nonessential maintenance actions.",
+      "Communicated the measured recovery window to the customer."
+    ],
+    "resolution": "Database connections stabilized after failover completed and node health was revalidated.",
+    "prevention": [
+      "Added tighter concurrency controls for maintenance execution.",
+      "Improved failover timing telemetry.",
+      "Expanded premaintenance dependency validation."
+    ],
+    "customerSummary": "The disruption occurred during a platform maintenance operation and was extended by a slower-than-expected failover workflow. Service recovered once the database moved fully to healthy infrastructure and connectivity was revalidated.",
+    "recommendedInvestigation": [
+      "Review failover timing against maintenance schedule.",
+      "Check connection retry patterns from the application tier.",
+      "Validate post-failover replica health."
+    ],
+    "similarIncidentHints": [
+      "SQL failover delay",
+      "maintenance brownout",
+      "database retry storm",
+      "planned maintenance issue"
+    ],
+    "documentation": [
+      {
+        "title": "Azure SQL failover runbook",
+        "type": "Runbook",
+        "snippet": "Validate replica readiness and correlate user impact with failover timing."
+      }
+    ],
+    "communicationDraft": "We have confirmed that the disruption occurred during a platform maintenance event and that failover took longer than expected for a subset of databases. Service has recovered, and we are reviewing the failover workflow to reduce the likelihood of similar delays in future maintenance windows.",
+    "proactiveRescueCandidate": false,
+    "trustSignals": [
+      "Maintenance context stated",
+      "Recovery confirmed",
+      "Prevention review acknowledged"
+    ]
+  },
+  {
+    "id": "INC-014",
+    "title": "Azure Blob Storage elevated latency caused by partition hotspotting",
+    "service": "Azure Blob Storage",
+    "category": "Storage",
+    "severity": "Sev2",
+    "regions": [
+      "East US"
+    ],
+    "customer": "Graphic Design Institute",
+    "industry": "Education",
+    "symptoms": [
+      "Slow blob uploads",
+      "Intermittent server busy responses",
+      "Latency spikes on a narrow set of object paths"
+    ],
+    "problemDescription": "Customer reports that upload-heavy workflows are suddenly slower and occasionally receive transient storage errors.",
+    "rootCause": "A concentrated access pattern created a temporary partition hotspot, which reduced throughput for a narrow subset of blob paths until load was redistributed.",
+    "mitigation": [
+      "Redistributed load away from the hottest partition path.",
+      "Increased temporary capacity on the supporting storage tier.",
+      "Shared short-term retry guidance for transient failures."
+    ],
+    "resolution": "Upload latency returned to normal after storage partition pressure was relieved and capacity normalized.",
+    "prevention": [
+      "Improved hotspot detection.",
+      "Added better partition-balancing safeguards.",
+      "Expanded guidance for large-burst upload distribution."
+    ],
+    "customerSummary": "The slowdown was caused by a platform-side storage hotspot affecting a narrow set of blob paths rather than by a broad storage outage. Performance improved after load was redistributed and supporting capacity was adjusted.",
+    "recommendedInvestigation": [
+      "Check request volume concentration by prefix.",
+      "Compare latency by object path.",
+      "Review transient error frequency during the affected interval."
+    ],
+    "similarIncidentHints": [
+      "blob latency",
+      "server busy",
+      "hot partition",
+      "upload slowdown"
+    ],
+    "documentation": [
+      {
+        "title": "Blob performance triage guide",
+        "type": "KB",
+        "snippet": "Review access concentration and differentiate hotspotting from regional storage incidents."
+      }
+    ],
+    "communicationDraft": "We identified a platform-side storage hotspot affecting a subset of your blob traffic patterns. Mitigation has been applied, performance is improving, and we are continuing to validate stability. We’ll share follow-up guidance if any customer-side tuning is recommended after the review.",
+    "proactiveRescueCandidate": false,
+    "trustSignals": [
+      "Impact scope narrowed clearly",
+      "Mitigation underway",
+      "No broad outage implication"
+    ]
+  },
+  {
+    "id": "INC-015",
+    "title": "Azure Cosmos DB request throttling after metadata service instability",
+    "service": "Azure Cosmos DB",
+    "category": "Database",
+    "severity": "Sev2",
+    "regions": [
+      "North Central US"
+    ],
+    "customer": "Lucerne Publishing",
+    "industry": "Publishing",
+    "symptoms": [
+      "Requests receive elevated throttling responses",
+      "Read latency increases",
+      "Application retry volume spikes"
+    ],
+    "problemDescription": "Customer reports that application reads and writes became slower and observed more throttling responses than usual without a workload deployment change.",
+    "rootCause": "A supporting metadata service became unstable, which temporarily reduced the efficiency of partition routing and increased request throttling.",
+    "mitigation": [
+      "Stabilized the metadata service.",
+      "Shifted load away from the most impacted path.",
+      "Tracked retry amplification during recovery."
+    ],
+    "resolution": "Request latency and throttling rates returned to expected levels after metadata service recovery.",
+    "prevention": [
+      "Added stronger health probes for metadata dependencies.",
+      "Improved automatic isolation of unstable routing paths.",
+      "Expanded alerts on retry amplification."
+    ],
+    "customerSummary": "The issue was caused by instability in a supporting platform dependency rather than by an RU configuration change in your workload. Service recovered after the dependency stabilized and routing efficiency returned to expected levels.",
+    "recommendedInvestigation": [
+      "Compare throttling patterns before and during the incident.",
+      "Review retry amplification in the application tier.",
+      "Check whether partition distribution changed during impact."
+    ],
+    "similarIncidentHints": [
+      "Cosmos throttling",
+      "metadata issue",
+      "read latency",
+      "retry spike"
+    ],
+    "documentation": [
+      {
+        "title": "Cosmos DB throttling analysis guide",
+        "type": "Runbook",
+        "snippet": "Separate customer RU pressure from platform-side routing or metadata issues."
+      }
+    ],
+    "communicationDraft": "We traced the elevated throttling and latency to instability in a supporting platform dependency rather than to a customer-side throughput configuration change. Mitigation has been completed, and request behavior is returning to expected levels. We’ll continue monitoring and share any additional preventive actions once our review is complete.",
+    "proactiveRescueCandidate": false,
+    "trustSignals": [
+      "Customer configuration not blamed",
+      "Recovery trend explained",
+      "Monitoring continues"
+    ]
+  },
+  {
+    "id": "INC-016",
+    "title": "Proactive rescue candidate: Event Hubs ingestion lag pattern detected before customer escalation",
+    "service": "Azure Event Hubs",
+    "category": "Messaging",
+    "severity": "Sev3",
+    "regions": [
+      "South India"
+    ],
+    "customer": "A Datum Manufacturing",
+    "industry": "Manufacturing",
+    "symptoms": [
+      "Consumer lag slowly increasing",
+      "No visible outage yet",
+      "Ingress spikes approaching known risk pattern"
+    ],
+    "problemDescription": "Operational telemetry indicates a growing ingestion and consumer lag pattern that resembles previous queueing incidents, but the customer has not yet opened a support ticket.",
+    "rootCause": "Likely emerging throughput pressure on a messaging path that may cause delayed stream processing if demand continues to rise.",
+    "mitigation": [
+      "Flagged the customer workload for proactive review.",
+      "Prepared a customer-facing risk note with lag guidance.",
+      "Reviewed capacity options and partition distribution."
+    ],
+    "resolution": "Customer-visible impact was avoided after preventive load adjustments and customer outreach.",
+    "prevention": [
+      "Added proactive lag-risk scoring.",
+      "Improved anomaly linkage to similar incidents.",
+      "Created pre-incident guidance for ingestion burst handling."
+    ],
+    "customerSummary": "We detected a rising lag pattern in your streaming workload that may have led to delayed processing if it had continued unchecked. We reached out proactively, reviewed capacity, and helped reduce the chance of customer-visible impact.",
+    "recommendedInvestigation": [
+      "Check lag growth against historical baselines.",
+      "Review ingress burst timing and partition spread.",
+      "Validate autoscale or headroom assumptions."
+    ],
+    "similarIncidentHints": [
+      "Event Hubs lag",
+      "stream backlog",
+      "ingestion pressure",
+      "proactive messaging rescue"
+    ],
+    "documentation": [
+      {
+        "title": "Streaming lag early-warning guide",
+        "type": "Monitoring",
+        "snippet": "Escalate when lag curvature matches known service-pressure patterns."
+      }
+    ],
+    "communicationDraft": "We are reaching out proactively because our monitoring detected a lag pattern in your Event Hubs workload that could increase processing delay if left unaddressed. Your service remains available, and we are reviewing capacity and partition distribution while sharing guidance to help you stay ahead of impact.",
+    "proactiveRescueCandidate": true,
+    "trustSignals": [
+      "Proactive outreach before escalation",
+      "Risk kept concrete",
+      "Customer guidance shared early"
+    ]
+  }
+]
