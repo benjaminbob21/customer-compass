@@ -58,6 +58,7 @@ a {
 .brand-button {
   background: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-deep) 100%);
   box-shadow: 0 14px 30px rgba(21, 59, 122, 0.18);
+  color: #ffffff;
 }
 
 .brand-button:hover {
@@ -70,7 +71,11 @@ a {
 }
 
 .brand-outline-button {
-  background: rgba(255, 255, 255, 0.82);
-  border: 1px solid var(--brand-border);
-  color: var(--brand-ink);
+  background: linear-gradient(135deg, var(--brand-navy) 0%, var(--brand-deep) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  color: #ffffff;
+}
+
+.brand-outline-button:hover {
+  filter: brightness(1.04);
 }

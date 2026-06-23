@@ -4,37 +4,36 @@
  * Home / Incident Analysis Page
  * Main entry point for Customer Compass demo
  * 
- * This is the primary page where support engineers submit customer issues
- * and get AI analysis results.
+ * This is the primary page where support engineers submit customer issues.
+ * After analysis, navigates to the results page.
  */
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import IssueForm from "@/components/IssueForm";
-import AnalysisResults from "@/components/AnalysisResults";
 import { analyzeIssue } from "@/api/client";
 import BrandLogo from "@/components/BrandLogo";
-import type { AnalyzeResponse } from "@/lib/types";
 
 export default function Home() {
+  const router = useRouter();
+  
   // State management
-  const [issue, setIssue] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
-  const [results, setResults] = useState<AnalyzeResponse | null>(null);
   const [error, setError] = useState<string>("");
 
   /**
    * Handle form submission
    * Calls the backend API to analyze the customer issue
+   * Then navigates to the results page
    */
   const handleAnalyze = async (issueText: string) => {
-    setIssue(issueText);
     setIsLoading(true);
     setError("");
-    setResults(null);
 
     try {
-      const data = await analyzeIssue(issueText);
-      setResults(data);
+      await analyzeIssue(issueText);
+      // Navigate to results page after successful analysis
+      router.push("/results");
     } catch (err) {
       setError(
         err instanceof Error
@@ -102,16 +101,8 @@ export default function Home() {
           </div>
         )}
 
-        {/* Results Section */}
-        {results && !isLoading && (
-          <div className="brand-panel rounded-[28px] p-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">Analysis Results</h2>
-            <AnalysisResults {...results} />
-          </div>
-        )}
-
         {/* Empty State */}
-        {!results && !isLoading && !error && issue === "" && (
+        {!isLoading && !error && (
           <div className="text-center py-12 text-[var(--brand-ink)]/68">
             <p className="text-lg">Enter a customer issue above to see the full support story unfold.</p>
             <p className="mt-2 text-sm">Example: &quot;Customer experiencing intermittent Azure networking failures&quot;</p>

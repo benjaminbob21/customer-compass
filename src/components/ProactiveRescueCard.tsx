@@ -40,10 +40,6 @@ export default function ProactiveRescueCard({
           {confidence}% confidence
         </div>
       </div>
-
-      <button className="brand-button w-full rounded-2xl px-4 py-3 font-medium text-white transition-colors">
-        Send Proactive Outreach
-      </button>
     </Card>
   );
 }

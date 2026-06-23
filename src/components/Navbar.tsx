@@ -28,9 +28,6 @@ export default function Navbar() {
             <Link href="/" className={`pb-2 transition-colors ${isActive("/")}`}>
               Home
             </Link>
-            <Link href="/results" className={`pb-2 transition-colors ${isActive("/results")}`}>
-              Results
-            </Link>
             <Link href="/rescue" className={`pb-2 transition-colors ${isActive("/rescue")}`}>
               Proactive Rescue
             </Link>
