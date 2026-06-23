@@ -5,22 +5,9 @@
  * Think of this as a "messenger" between frontend and backend.
  */
 
-// TypeScript interfaces define the shape of data
-// (like contracts: "this data will always have these fields")
-
-interface AnalyzeRequest {
-  issue: string;
-}
-
-interface AnalyzeResponse {
-  similarIncidents: Array<{
-    id: string;
-    title: string;
-    resolution: string;
-  }>;
-  recommendedActions: string[];
-  customerMessage: string;
-}
+// The request/response shapes come from the shared backend contract
+// so the frontend and backend can never drift apart.
+import type { AnalyzeRequest, AnalyzeResponse } from "@/lib/types";
 
 /**
  * Call the backend /api/analyze endpoint

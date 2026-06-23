@@ -1,22 +1,8 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Customer Compass
+## Getting Started
 
-An AI-powered support platform that helps teams deliver clear, personalized, and trustworthy customer experiences.
-
-## Tech Stack
-
-- **Next.js 16** (App Router) + **React 19**
-- **TypeScript**
-- **Tailwind CSS v4**
-- **ESLint**
-
-## Prerequisites
-
-- **Node.js `>=20.9.0`** (an `.nvmrc` is included — run `nvm use` if you use nvm)
-- **npm** (the repo ships a `package-lock.json`, so use npm for consistent installs)
-
-## Getting Started (after cloning)
+First, run the development server:
 
 ```bash
 # 1. Install the exact dependency versions from package-lock.json

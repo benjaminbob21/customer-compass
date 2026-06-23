@@ -12,17 +12,10 @@
  * React concept: Props = Data the parent passes to this component
  */
 
-interface Incident {
-  id: string;
-  title: string;
-  resolution: string;
-}
+import type { AnalyzeResponse } from "@/lib/types";
 
-interface AnalysisResultsProps {
-  similarIncidents: Incident[];
-  recommendedActions: string[];
-  customerMessage: string;
-}
+// The props are exactly the backend's /api/analyze response.
+type AnalysisResultsProps = AnalyzeResponse;
 
 export default function AnalysisResults({
   similarIncidents,
