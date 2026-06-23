@@ -106,11 +106,7 @@ export default function Home() {
         {results && !isLoading && (
           <div className="brand-panel rounded-[28px] p-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-8">Analysis Results</h2>
-            <AnalysisResults
-              similarIncidents={results.similarIncidents}
-              recommendedActions={results.recommendedActions}
-              customerMessage={results.customerMessage}
-            />
+            <AnalysisResults {...results} />
           </div>
         )}
 

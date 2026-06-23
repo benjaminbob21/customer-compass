@@ -5,6 +5,9 @@ import { getLlmClient } from "./llm";
 export interface Guidance {
   customerMessage: string;
   recommendedActions: string[];
+  recommendedInvestigation: string[];
+  confidence: string;
+  resolutionTimeline: string;
 }
 
 /**
@@ -32,20 +35,38 @@ function parseGuidance(raw: string): Guidance {
     const parsed = JSON.parse(cleaned) as Partial<Guidance>;
     const customerMessage =
       typeof parsed.customerMessage === "string" ? parsed.customerMessage : "";
-    const recommendedActions = Array.isArray(parsed.recommendedActions)
-      ? parsed.recommendedActions.filter(
-          (action): action is string => typeof action === "string",
-        )
-      : [];
 
     if (customerMessage) {
-      return { customerMessage, recommendedActions };
+      return {
+        customerMessage,
+        recommendedActions: toStringArray(parsed.recommendedActions),
+        recommendedInvestigation: toStringArray(parsed.recommendedInvestigation),
+        confidence:
+          typeof parsed.confidence === "string" ? parsed.confidence : "",
+        resolutionTimeline:
+          typeof parsed.resolutionTimeline === "string"
+            ? parsed.resolutionTimeline
+            : "",
+      };
     }
   } catch {
     // Not valid JSON — fall through to the text fallback below.
   }
 
-  return { customerMessage: cleaned, recommendedActions: [] };
+  return {
+    customerMessage: cleaned,
+    recommendedActions: [],
+    recommendedInvestigation: [],
+    confidence: "",
+    resolutionTimeline: "",
+  };
+}
+
+/** Keep only the string entries of an unknown value, else an empty array. */
+function toStringArray(value: unknown): string[] {
+  return Array.isArray(value)
+    ? value.filter((item): item is string => typeof item === "string")
+    : [];
 }
 
 /** Strips a ```json ... ``` or ``` ... ``` wrapper if the model added one. */

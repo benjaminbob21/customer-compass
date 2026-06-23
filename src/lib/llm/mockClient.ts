@@ -27,6 +27,13 @@ export class MockLlmClient implements LlmClient {
         "Apply the mitigation that resolved similar past incidents.",
         "Monitor for recurrence before closing the case.",
       ],
+      recommendedInvestigation: [
+        "Check recent configuration or deployment changes on the affected resource.",
+        "Review service health and dependency status in the impacted region.",
+        "Correlate the customer's error timestamps with known incident windows.",
+      ],
+      confidence: "83% similarity",
+      resolutionTimeline: "Historically resolved within 3 steps",
     });
   }
 }

@@ -38,4 +38,10 @@ export interface AnalyzeResponse {
   recommendedActions: string[];
   /** AI-generated, customer-friendly explanation. */
   customerMessage: string;
+  /** Specific things the engineer should investigate to confirm the cause. */
+  recommendedInvestigation: string[];
+  /** AI-estimated match strength, e.g. "83% similarity". Generated, not computed. */
+  confidence: string;
+  /** AI-estimated resolution path, e.g. "Historically resolved within 3 steps". */
+  resolutionTimeline: string;
 }

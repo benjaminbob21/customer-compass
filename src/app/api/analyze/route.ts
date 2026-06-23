@@ -34,15 +34,21 @@ export async function POST(request: Request) {
   const similarIncidents = findSimilarIncidents(issue);
 
   // 2. Ask the LLM for a customer-friendly message + next-best actions.
-  const { customerMessage, recommendedActions } = await generateGuidance(
-    issue,
-    similarIncidents,
-  );
+  const {
+    customerMessage,
+    recommendedActions,
+    recommendedInvestigation,
+    confidence,
+    resolutionTimeline,
+  } = await generateGuidance(issue, similarIncidents);
 
   const response: AnalyzeResponse = {
     similarIncidents,
     recommendedActions,
     customerMessage,
+    recommendedInvestigation,
+    confidence,
+    resolutionTimeline,
   };
 
   return NextResponse.json(response);
