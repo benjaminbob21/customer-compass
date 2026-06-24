@@ -9,6 +9,10 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   reporter: "list",
+  // Generous per-test timeout: the Next dev server compiles routes on first
+  // request, which can be slow when several run at once.
+  timeout: 60_000,
+  workers: 3,
   use: {
     baseURL: "http://localhost:3000",
   },

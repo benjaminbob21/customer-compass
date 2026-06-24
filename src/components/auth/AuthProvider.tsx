@@ -116,7 +116,11 @@ function EntraBridge({ children }: { children: ReactNode }) {
 function EntraProvider({ children }: { children: ReactNode }) {
   const [instance, setInstance] = useState<PublicClientApplication | null>(null);
 
+  // Construct MSAL on the client only. Deferring to an effect keeps the first
+  // client render identical to the server render (the inert branch below),
+  // avoiding a hydration mismatch.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setInstance(getMsalInstance());
   }, []);
 

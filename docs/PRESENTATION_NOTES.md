@@ -2,13 +2,14 @@
 
 Talking points for the three questions that matter most to a Microsoft audience:
 **identity (Entra ID)**, **accessibility & inclusion**, and **security**. Plus the
-roadmap answer for *"where does the issue come from?"*
+roadmap answer for _"where does the issue come from?"_
 
 ---
 
 ## 1. Identity: Why Microsoft Entra ID and Single Sign-On (SSO)
 
 ### What we built
+
 - The app authenticates with **Microsoft Entra ID** using **MSAL** (`@azure/msal-react`),
   the same identity platform that backs Microsoft 365, Azure, and Teams.
 - We request the minimal **`User.Read`** Microsoft Graph scope — just enough to greet the
@@ -17,8 +18,9 @@ roadmap answer for *"where does the issue come from?"*
   no-tenant environment and "lights up" real SSO the moment an app registration is added.
 
 ### Why SSO is useful (the talking points)
+
 - **No new passwords.** Support engineers already sign in to Microsoft every morning.
-  SSO means *zero* extra credentials to create, remember, rotate, or leak. This is the
+  SSO means _zero_ extra credentials to create, remember, rotate, or leak. This is the
   single biggest reduction in attack surface you can make.
 - **One identity, everywhere.** The same account that opens Teams, Outlook, and the Azure
   portal opens Customer Compass. That's what makes it feel like a native part of the
@@ -33,12 +35,14 @@ roadmap answer for *"where does the issue come from?"*
   is a strong story.
 
 ### Why we picked the minimal scope
+
 - `User.Read` only. We follow **least privilege** — the app never asks for mailbox, files,
   or directory access it doesn't use. Easy consent, easy security review.
 
 ### One-line summary for a slide
-> *Customer Compass uses Microsoft Entra ID SSO so support engineers sign in with the account
-> they already have — no new passwords, central IT control, full audit, least-privilege access.*
+
+> _Customer Compass uses Microsoft Entra ID SSO so support engineers sign in with the account
+> they already have — no new passwords, central IT control, full audit, least-privilege access._
 
 ---
 
@@ -50,16 +54,16 @@ This keeps the demo self-contained and provider-agnostic.
 
 **Next steps — pull the issue automatically from where the work already lives:**
 
-| Source | How it plugs in | Value |
-| --- | --- | --- |
-| **Dynamics 365 Customer Service** | Read the active case/ticket via Graph/Dataverse API | Analyze the real support case with one click |
-| **Azure DevOps / GitHub Issues** | Pull the work item the engineer is on | Engineering-side incidents flow straight in |
-| **ServiceNow / Zendesk** | Connector or webhook on ticket creation | Meet enterprises where their ITSM already is |
-| **Microsoft Teams** | A message-extension / bot: right-click a message → "Analyze in Compass" | Zero context-switching for support chats |
-| **Outlook** | Add-in on a customer email → analyze the thread | Turn an inbound complaint into guidance instantly |
-| **Azure Monitor / Service Health** | Telemetry + alerts feed the *Proactive Rescue* roadmap | Detect issues **before** the customer reports them |
+| Source                             | How it plugs in                                                         | Value                                              |
+| ---------------------------------- | ----------------------------------------------------------------------- | -------------------------------------------------- |
+| **Dynamics 365 Customer Service**  | Read the active case/ticket via Graph/Dataverse API                     | Analyze the real support case with one click       |
+| **Azure DevOps / GitHub Issues**   | Pull the work item the engineer is on                                   | Engineering-side incidents flow straight in        |
+| **ServiceNow / Zendesk**           | Connector or webhook on ticket creation                                 | Meet enterprises where their ITSM already is       |
+| **Microsoft Teams**                | A message-extension / bot: right-click a message → "Analyze in Compass" | Zero context-switching for support chats           |
+| **Outlook**                        | Add-in on a customer email → analyze the thread                         | Turn an inbound complaint into guidance instantly  |
+| **Azure Monitor / Service Health** | Telemetry + alerts feed the _Proactive Rescue_ roadmap                  | Detect issues **before** the customer reports them |
 
-**Why this matters:** because we authenticate with **Entra ID**, the *same token* can (with the
+**Why this matters:** because we authenticate with **Entra ID**, the _same token_ can (with the
 right consented scopes) call Graph, Dataverse, or Azure APIs **on behalf of the signed-in user**.
 SSO isn't just a login convenience — it's the foundation that lets us pull the issue securely
 from any Microsoft source **as that user**, respecting their existing permissions.
@@ -75,12 +79,14 @@ from any Microsoft source **as that user**, respecting their existing permission
 ### What is already implemented
 
 **Color-blind users (~8% of men)**
+
 - We **never rely on color alone** to convey meaning. Status is always **icon + text + color**:
-  a warning shows a warning icon *and* a label, success shows a check icon *and* a label.
+  a warning shows a warning icon _and_ a label, success shows a check icon _and_ a label.
   A color-blind user gets the same information whether or not they can distinguish red/green.
 - The Fluent communication-blue palette and neutral grays are chosen for strong contrast.
 
 **Low-vision users**
+
 - **WCAG-aimed contrast** between text and backgrounds across the redesign.
 - **Visible keyboard focus**: a 2px brand-colored focus ring (`:focus-visible`) on every
   interactive element, so you can see exactly where you are.
@@ -88,6 +94,7 @@ from any Microsoft source **as that user**, respecting their existing permission
   and browser zoom reflow cleanly.
 
 **Totally blind users (screen readers — Narrator, JAWS, NVDA)**
+
 - **Semantic HTML**: real `<button>`, `<nav>`, `<main>`, heading hierarchy — not clickable `<div>`s.
 - **ARIA where it counts**: the app launcher, mobile menu, and user menu expose
   `aria-label` and `aria-expanded` so a screen reader announces them correctly.
@@ -96,25 +103,30 @@ from any Microsoft source **as that user**, respecting their existing permission
 - The app logo/favicon carries a descriptive `aria-label`.
 
 **Motion-sensitive users (vestibular disorders)**
+
 - We honor **`prefers-reduced-motion`** — animations are disabled for users who request it
   at the OS level.
 
 **High-contrast & Windows High Contrast Mode users**
+
 - We honor **`prefers-contrast: more`** (stronger text/border contrast, thicker focus ring)
   and **`forced-colors: active`** — in Windows High Contrast Mode we let the OS palette paint
   text/backgrounds, keep borders on interactive controls, and drop decorative gradients so
   nothing becomes unreadable.
 
 **Deaf / hard-of-hearing users**
+
 - The product is **text-first**: all guidance, customer-communication drafts, and analysis are
   written content, not audio/video — so there's no audio barrier today.
 
 **Automated verification**
+
 - An **axe-core accessibility test suite** (Playwright + `@axe-core/playwright`) scans every
   route for **WCAG 2.0/2.1 A & AA** violations. Run with `npm run a11y` — all 6 routes currently
   pass with **zero violations**. This is repeatable and ready to wire into CI.
 
 ### What we recommend next (roadmap — honest about gaps)
+
 - **Captions/transcripts** if we ever add demo videos or voice features.
 - **Real screen-reader testing** with Narrator/NVDA on each release (axe catches ~30–40% of
   issues automatically; manual AT testing covers the rest).
@@ -123,10 +135,11 @@ from any Microsoft source **as that user**, respecting their existing permission
 - **Localization / RTL** support for global teams.
 
 ### One-line summary for a slide
-> *Accessibility is built in, not bolted on: status is conveyed by icon + text (not color alone),
+
+> _Accessibility is built in, not bolted on: status is conveyed by icon + text (not color alone),
 > visible focus rings, semantic HTML + ARIA for screen readers, reduced-motion + high-contrast
 > support, and an automated axe-core suite passing WCAG A/AA on every route — aligned with
-> Microsoft Inclusive Design and WCAG.*
+> Microsoft Inclusive Design and WCAG._
 
 ---
 
@@ -138,6 +151,7 @@ from any Microsoft source **as that user**, respecting their existing permission
 ### How the app embraces it
 
 **Identity & access (the front door)**
+
 - **Entra ID SSO** instead of homegrown auth — we don't store or handle passwords at all.
 - **Least privilege**: only the `User.Read` scope is requested.
 - Token cache uses **`sessionStorage`** — credentials are cleared when the browser session ends,
@@ -146,12 +160,14 @@ from any Microsoft source **as that user**, respecting their existing permission
   protections for free.
 
 **Secrets & configuration**
-- **No secrets in the client.** The Entra *client ID* is a public identifier (safe to ship);
+
+- **No secrets in the client.** The Entra _client ID_ is a public identifier (safe to ship);
   the **Azure OpenAI key stays server-side only** and is read from environment variables.
 - `.env.local` is git-ignored; `.env.example` documents the variables without leaking values.
 - Public client values are prefixed `NEXT_PUBLIC_`; everything else stays on the server.
 
 **Architecture / data handling**
+
 - The AI call runs through a **server-side API route** (`/api/analyze`) — the browser never
   talks to Azure OpenAI directly and never sees the key.
 - **Provider abstraction** lets us swap the mock client for Azure OpenAI without changing the
@@ -160,12 +176,14 @@ from any Microsoft source **as that user**, respecting their existing permission
   open to an unauthenticated external call.
 
 **Supply chain & build hygiene**
+
 - The production build **passes TypeScript type-checking** with no errors — type safety is a
   real first line of defense.
 - We track dependency advisories (`npm audit`) and can wire **Dependabot / GitHub Advanced
   Security** into CI.
 
 ### What we recommend next (roadmap)
+
 - **On-behalf-of (OBO) flow** when we start pulling tickets from Graph/Dataverse, so the app
   acts strictly within the signed-in user's permissions.
 - Server-side **authorization checks** on `/api/analyze` (require a valid Entra token) before GA.
@@ -175,9 +193,10 @@ from any Microsoft source **as that user**, respecting their existing permission
 - Resolve the 2 moderate transitive `npm audit` advisories before production.
 
 ### One-line summary for a slide
-> *Secure by design: enterprise SSO (no passwords), least-privilege scopes, server-side secrets,
+
+> _Secure by design: enterprise SSO (no passwords), least-privilege scopes, server-side secrets,
 > mock-safe defaults, and a clear path to on-behalf-of access and full authorization — built on
-> the same identity platform Microsoft trusts internally.*
+> the same identity platform Microsoft trusts internally._
 
 ---
 

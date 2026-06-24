@@ -15,7 +15,19 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+/**
+ * Absolute base for Open Graph / canonical URLs.
+ * Prefers an explicit site URL, falls back to the Vercel-provided host, then
+ * localhost for development.
+ */
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000");
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Customer Compass — Microsoft Support Intelligence",
     template: "%s · Customer Compass",
