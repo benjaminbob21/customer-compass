@@ -17,12 +17,7 @@ const sections: { heading: string; links: { label: string; href: string }[] }[] 
   },
   {
     heading: "Platform",
-    links: [
-      { label: "Future Vision", href: "/future-vision" },
-      { label: "Built on Azure AI", href: "/" },
-      { label: "Entra ID single sign-on", href: "/" },
-      { label: "Responsible AI", href: "/" },
-    ],
+    links: [{ label: "Future Vision", href: "/future-vision" }],
   },
 ];
 
