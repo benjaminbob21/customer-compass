@@ -89,10 +89,10 @@ export default function ResultsPage() {
   const customerMessage = analysis?.customerMessage ?? mockCustomerMessage;
 
   const emailSubject = analysis?.emailSubject ?? "Update on your support issue";
-  const emailBody = analysis?.emailBody ?? customerMessage;
+  // Always email the exact message shown on screen so what you see is what you send.
   const mailtoHref = `mailto:?subject=${encodeURIComponent(
     emailSubject,
-  )}&body=${encodeURIComponent(emailBody)}`;
+  )}&body=${encodeURIComponent(customerMessage)}`;
 
   const [copied, setCopied] = useState(false);
   const handleCopy = async () => {
