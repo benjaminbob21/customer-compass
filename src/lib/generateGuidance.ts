@@ -1,6 +1,7 @@
 import type { Incident } from "./types";
 import { buildPrompt } from "./prompt";
 import { getLlmClient } from "./llm";
+import { MockLlmClient } from "./llm/mockClient";
 
 export interface ParsedGuidance {
   customerMessage: string;
@@ -27,8 +28,21 @@ export async function generateGuidance(
 ): Promise<Guidance> {
   const client = getLlmClient();
   const prompt = buildPrompt(issue, incidents);
-  const raw = await client.complete(prompt);
-  return { ...parseGuidance(raw), source: client.source };
+
+  try {
+    const raw = await client.complete(prompt);
+    return { ...parseGuidance(raw), source: client.source };
+  } catch (err) {
+    // The real model failed (timeout, auth, rate limit, outage). Rather than
+    // 500 the user, degrade to the mock so they still get useful guidance.
+    if (client.source !== "mock") {
+      console.error("[guidance] LLM call failed, falling back to mock", err);
+      const fallback = new MockLlmClient();
+      const raw = await fallback.complete();
+      return { ...parseGuidance(raw), source: "mock" };
+    }
+    throw err;
+  }
 }
 
 /**

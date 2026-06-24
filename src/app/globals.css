@@ -1,30 +1,98 @@
 @import "tailwindcss";
 
+/* ============================================================================
+   Customer Compass — Microsoft Fluent 2 design system
+   Authentic Microsoft tokens: communication blue, neutral grays, Segoe UI,
+   Fluent depth/elevation, 4/8px radii. Legacy --brand-* variables are remapped
+   to Microsoft values so every component inherits the new look.
+   ========================================================================== */
+
 :root {
-  --background: #f4fbff;
-  --foreground: #123358;
-  --brand-mist: #eff9ff;
-  --brand-sky: #8dd9ff;
-  --brand-blue: #4fbfff;
-  --brand-navy: #245daf;
-  --brand-deep: #153b7a;
-  --brand-ink: #0f2f57;
-  --brand-border: rgba(36, 93, 175, 0.16);
+  /* Brand — Microsoft communication blue ramp */
+  --brand-primary: #0f6cbd;
+  --brand-primary-hover: #115ea3;
+  --brand-primary-pressed: #0c3b5e;
+  --brand-accent: #2899f5;
+  --brand-tint: #ebf3fc;
+  --brand-tint-2: #cfe4fa;
+
+  /* Neutral foreground / background (Fluent neutral ramp) */
+  --neutral-fg-1: #242424;
+  --neutral-fg-2: #424242;
+  --neutral-fg-3: #616161;
+  --neutral-fg-4: #707070;
+  --neutral-fg-disabled: #bdbdbd;
+  --neutral-stroke-1: #e0e0e0;
+  --neutral-stroke-2: #d1d1d1;
+  --neutral-bg-1: #ffffff;
+  --neutral-bg-2: #fafafa;
+  --neutral-canvas: #f3f5f9;
+
+  /* Status */
+  --status-success: #0e700e;
+  --status-success-bg: #e7f6e7;
+  --status-warning: #9a5800;
+  --status-warning-bg: #fdf6e3;
+  --status-danger: #b10e1c;
+  --status-danger-bg: #fdf3f4;
+  --status-info: #0f6cbd;
+  --status-info-bg: #ebf3fc;
+
+  /* Fluent elevation (depth) */
+  --shadow-2: 0 1px 2px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.06);
+  --shadow-4: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 2px rgba(0, 0, 0, 0.06);
+  --shadow-8: 0 4px 8px rgba(0, 0, 0, 0.1), 0 0 2px rgba(0, 0, 0, 0.06);
+  --shadow-16: 0 8px 16px rgba(0, 0, 0, 0.12), 0 0 2px rgba(0, 0, 0, 0.06);
+  --shadow-28: 0 14px 28px rgba(0, 0, 0, 0.14), 0 0 8px rgba(0, 0, 0, 0.06);
+  --shadow-64: 0 32px 64px rgba(0, 0, 0, 0.18), 0 0 8px rgba(0, 0, 0, 0.06);
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* Page tokens */
+  --background: var(--neutral-canvas);
+  --foreground: var(--neutral-fg-1);
+
+  /* ---- Legacy aliases (kept so un-touched components stay on-brand) ---- */
+  --brand-mist: var(--brand-tint);
+  --brand-sky: var(--brand-accent);
+  --brand-blue: var(--brand-primary);
+  --brand-navy: var(--brand-primary-hover);
+  --brand-deep: var(--brand-primary-pressed);
+  --brand-ink: var(--neutral-fg-1);
+  --brand-border: rgba(0, 0, 0, 0.09);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Segoe UI Variable Text", "Segoe UI", var(--font-geist-sans),
+    system-ui, -apple-system, sans-serif;
+  --font-mono: "Cascadia Code", var(--font-geist-mono), ui-monospace, monospace;
+}
+
+* {
+  border-color: var(--neutral-stroke-1);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   background:
-    radial-gradient(circle at top, rgba(141, 217, 255, 0.45), transparent 35%),
-    linear-gradient(180deg, #f2fbff 0%, #e8f7ff 22%, #f8fdff 100%);
+    radial-gradient(1200px 600px at 100% -10%, rgba(40, 153, 245, 0.1), transparent 60%),
+    radial-gradient(900px 500px at -10% 0%, rgba(15, 108, 189, 0.08), transparent 55%),
+    var(--neutral-canvas);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: "Segoe UI Variable Text", "Segoe UI", var(--font-geist-sans),
+    system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: -0.003em;
 }
 
 a {
@@ -32,10 +100,47 @@ a {
   text-decoration: none;
 }
 
+::selection {
+  background: var(--brand-tint-2);
+  color: var(--brand-primary-pressed);
+}
+
+/* Focus — Fluent keyboard ring */
+:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-thumb {
+  background: #c7ccd6;
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #aeb4c0;
+  background-clip: content-box;
+}
+
+/* ============================================================================
+   Surfaces & components
+   ========================================================================== */
+
+/* Hero — Microsoft brand mesh */
 .brand-page-hero {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--brand-sky) 0%, var(--brand-blue) 42%, var(--brand-deep) 100%);
+  color: #fff;
+  background:
+    radial-gradient(120% 120% at 0% 0%, #2899f5 0%, transparent 45%),
+    radial-gradient(120% 120% at 100% 0%, #4b8df8 0%, transparent 50%),
+    linear-gradient(135deg, #0f6cbd 0%, #115ea3 40%, #0c3b5e 100%);
 }
 
 .brand-page-hero::after {
@@ -43,39 +148,294 @@ a {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at center, rgba(255, 255, 255, 0.22), transparent 38%),
-    linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.16) 45%, transparent 100%);
+    radial-gradient(60% 60% at 80% 10%, rgba(255, 255, 255, 0.18), transparent 60%),
+    linear-gradient(180deg, transparent 60%, rgba(12, 59, 94, 0.35) 100%);
   pointer-events: none;
 }
 
+/* Subtle grid texture overlay for hero depth */
+.brand-page-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(80% 80% at 50% 0%, #000 0%, transparent 75%);
+  pointer-events: none;
+}
+
+/* Card surface */
 .brand-panel {
-  background: rgba(255, 255, 255, 0.84);
-  border: 1px solid var(--brand-border);
-  box-shadow: 0 20px 48px rgba(18, 51, 88, 0.08);
-  backdrop-filter: blur(14px);
+  background: var(--neutral-bg-1);
+  border: 1px solid var(--neutral-stroke-1);
+  box-shadow: var(--shadow-4);
+  border-radius: var(--radius-lg);
 }
 
+.ms-surface {
+  background: var(--neutral-bg-1);
+  border: 1px solid var(--neutral-stroke-1);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+}
+
+/* Acrylic (Fluent translucent material) */
+.ms-acrylic {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Primary button */
 .brand-button {
-  background: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-deep) 100%);
-  box-shadow: 0 14px 30px rgba(21, 59, 122, 0.18);
-  color: #ffffff;
+  background: var(--brand-primary);
+  color: #fff;
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-4);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  transition: background 120ms ease, box-shadow 120ms ease, transform 120ms ease;
 }
-
 .brand-button:hover {
-  filter: brightness(0.98);
+  background: var(--brand-primary-hover);
+  box-shadow: var(--shadow-8);
 }
-
+.brand-button:active {
+  background: var(--brand-primary-pressed);
+  transform: translateY(1px);
+  box-shadow: var(--shadow-2);
+}
 .brand-button:disabled {
-  background: #97b8cf;
+  background: #ebebeb;
+  color: var(--neutral-fg-disabled);
   box-shadow: none;
+  cursor: not-allowed;
+}
+/* While a request is in flight the button stays "active" so the spinner and
+   progress bar read as live work rather than a disabled, greyed-out control. */
+.brand-button.is-loading:disabled {
+  background: var(--brand-primary);
+  color: #fff;
+  box-shadow: var(--shadow-4);
+  cursor: progress;
+}
+@keyframes ccIndeterminate {
+  0% {
+    left: -35%;
+    width: 35%;
+  }
+  50% {
+    left: 35%;
+    width: 45%;
+  }
+  100% {
+    left: 100%;
+    width: 35%;
+  }
+}
+.ms-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.9);
+  animation: ccIndeterminate 1.1s ease-in-out infinite;
 }
 
+/* Secondary / subtle button */
 .brand-outline-button {
-  background: linear-gradient(135deg, var(--brand-navy) 0%, var(--brand-deep) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.26);
-  color: #ffffff;
+  background: var(--neutral-bg-1);
+  color: var(--brand-primary-pressed);
+  border: 1px solid var(--neutral-stroke-2);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+}
+.brand-outline-button:hover {
+  background: var(--brand-tint);
+  border-color: var(--brand-primary);
+}
+.brand-outline-button:active {
+  transform: translateY(1px);
 }
 
-.brand-outline-button:hover {
-  filter: brightness(1.04);
+/* Chips / badges */
+.ms-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border: 1px solid var(--neutral-stroke-1);
+  background: var(--neutral-bg-1);
+  color: var(--neutral-fg-2);
+}
+
+.ms-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* Gradient text accent */
+.text-gradient {
+  background: linear-gradient(120deg, #50b6ff 0%, #ffffff 60%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-brand-gradient {
+  background: linear-gradient(120deg, #0f6cbd 0%, #2899f5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Eyebrow label */
+.ms-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+/* Hairline divider */
+.ms-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--neutral-stroke-1) 20%, var(--neutral-stroke-1) 80%, transparent);
+}
+
+/* ============================================================================
+   Animations
+   ========================================================================== */
+@keyframes ccFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-rise {
+  animation: ccFadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes ccStageIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-stage {
+  animation: ccStageIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes ccShimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.ms-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.ms-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  animation: ccShimmer 1.6s infinite;
+}
+
+@keyframes ccPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+.ms-pulse {
+  animation: ccPulse 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast — users who request "more contrast" at the OS/browser level */
+@media (prefers-contrast: more) {
+  :root {
+    --neutral-fg-2: #1a1a1a;
+    --neutral-fg-3: #1a1a1a;
+    --neutral-fg-4: #2b2b2b;
+    --neutral-stroke-1: #000000;
+    --neutral-stroke-2: #000000;
+    --brand-primary: #0a4f8f;
+    --brand-primary-hover: #0a4f8f;
+  }
+  a,
+  button {
+    text-decoration-thickness: from-font;
+  }
+  :focus-visible {
+    outline-width: 3px;
+  }
+}
+
+/* Windows High Contrast Mode / forced-colors — honor the user's system palette */
+@media (forced-colors: active) {
+  /* Let the OS paint text/background; only ensure structure stays visible. */
+  .brand-button,
+  .brand-outline-button,
+  .ms-chip,
+  .ms-badge,
+  .ms-surface,
+  .brand-panel,
+  .ms-acrylic {
+    border: 1px solid CanvasText;
+  }
+  .brand-button {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+  /* Decorative gradient/mesh backgrounds add no info — drop them so text stays legible. */
+  .brand-page-hero::before,
+  .brand-page-hero::after,
+  .text-gradient,
+  .text-brand-gradient {
+    forced-color-adjust: none;
+  }
+  :focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
 }

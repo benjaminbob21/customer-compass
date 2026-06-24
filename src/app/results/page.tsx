@@ -16,7 +16,7 @@
  * - Customer Communication Draft + Copy & Send
  */
 
-import { useMemo, useSyncExternalStore } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import type { AnalyzeResponse } from "@/lib/types";
 import PageHero from "@/components/PageHero";
 import SimilarIncidentCard from "@/components/SimilarIncidentCard";
@@ -25,6 +25,7 @@ import TrustScoreCard from "@/components/TrustScoreCard";
 import ResolutionPath from "@/components/ResolutionPath";
 import CustomerExpectations from "@/components/CustomerExpectations";
 import Card from "@/components/Card";
+import Icon, { type IconName } from "@/components/Icon";
 import {
   mockIncidents,
   mockRecommendedActions,
@@ -49,6 +50,17 @@ function useSessionValue(key: string): string | null {
     subscribe,
     () => sessionStorage.getItem(key),
     () => null,
+  );
+}
+
+function SectionHeading({ icon, children }: { icon: IconName; children: React.ReactNode }) {
+  return (
+    <h2 className="mb-6 flex items-center gap-3 text-xl font-bold text-[var(--neutral-fg-1)]">
+      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--brand-tint)] text-[var(--brand-primary)]">
+        <Icon name={icon} size={18} />
+      </span>
+      {children}
+    </h2>
   );
 }
 
@@ -82,11 +94,24 @@ export default function ResultsPage() {
     emailSubject,
   )}&body=${encodeURIComponent(emailBody)}`;
 
+  const [copied, setCopied] = useState(false);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(customerMessage);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard unavailable — the email action still works */
+    }
+  };
+
   return (
-    <main className="flex-1 bg-gradient-to-b from-white to-[var(--brand-mist)]">
+    <main className="flex-1">
       <PageHero
-        title="Analysis Complete"
-        subtitle="Ready to communicate with clarity and confidence"
+        eyebrow="Analysis complete"
+        title="Ready to communicate with confidence"
+        subtitle="Grounded in Microsoft's support history, tailored to this customer"
+        icon="checkCircle"
       />
 
       {/* Main Content */}
@@ -94,25 +119,25 @@ export default function ResultsPage() {
         {/* Source indicator */}
         <div className="mb-6 flex justify-end">
           {isLive ? (
-            <span className="inline-flex items-center gap-2 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">
-              ● Live AI analysis
+            <span className="ms-badge bg-[var(--status-success-bg)] text-[var(--status-success)]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--status-success)] ms-pulse" />
+              Live AI analysis
             </span>
           ) : (
-            <span className="inline-flex items-center gap-2 rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-800">
-              ● Demo data (no live analysis)
+            <span className="ms-badge bg-[var(--status-warning-bg)] text-[var(--status-warning)]">
+              <Icon name="warning" size={13} />
+              Demo data (no live analysis)
             </span>
           )}
         </div>
 
         {/* Section 1: Issue Summary + Trust Score */}
         <section className="mb-16">
-          <h2 className="text-xl font-bold text-[var(--brand-ink)] mb-6 flex items-center gap-2">
-            <span>📊</span> The Issue & Our Confidence
-          </h2>
+          <SectionHeading icon="chart">The issue &amp; our confidence</SectionHeading>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="p-6 border-l-4 border-[var(--brand-blue)]">
-              <h3 className="font-semibold text-[var(--brand-ink)] mb-2">Reported Issue</h3>
-              <p className="text-gray-800 leading-relaxed">{reportedIssue}</p>
+            <Card className="p-6 border-l-4 border-[var(--brand-primary)]">
+              <h3 className="font-semibold text-[var(--neutral-fg-1)] mb-2">Reported issue</h3>
+              <p className="leading-relaxed text-[var(--neutral-fg-2)]">{reportedIssue}</p>
             </Card>
             <TrustScoreCard score={trustScore} />
           </div>
@@ -120,9 +145,9 @@ export default function ResultsPage() {
 
         {/* Section 2: What We Found */}
         <section className="mb-16">
-          <h2 className="text-xl font-bold text-[var(--brand-ink)] mb-6 flex items-center gap-2">
-            <span>🔍</span> What We Found: {incidents.length} Similar Incidents
-          </h2>
+          <SectionHeading icon="search">
+            What we found: {incidents.length} similar incidents
+          </SectionHeading>
           <div className="space-y-4">
             {incidents.map((incident) => (
               <SimilarIncidentCard
@@ -142,25 +167,19 @@ export default function ResultsPage() {
 
         {/* Section 3: Resolution Path */}
         <section className="mb-16">
-          <h2 className="text-xl font-bold text-[var(--brand-ink)] mb-6 flex items-center gap-2">
-            <span>🛣️</span> Your Resolution Path
-          </h2>
+          <SectionHeading icon="route">Your resolution path</SectionHeading>
           <ResolutionPath />
         </section>
 
         {/* Section 4: What to Expect */}
         <section className="mb-16">
-          <h2 className="text-xl font-bold text-[var(--brand-ink)] mb-6 flex items-center gap-2">
-            <span>⏱️</span> What Your Customer Should Expect
-          </h2>
+          <SectionHeading icon="clock">What your customer should expect</SectionHeading>
           <CustomerExpectations />
         </section>
 
         {/* Section 5: Recommended Actions */}
         <section className="mb-16">
-          <h2 className="text-xl font-bold text-[var(--brand-ink)] mb-6 flex items-center gap-2">
-            <span>✅</span> Recommended Actions for Your Team
-          </h2>
+          <SectionHeading icon="check">Recommended actions for your team</SectionHeading>
           <Card className="p-8">
             <RecommendedActionsList actions={recommendedActions} />
           </Card>
@@ -168,22 +187,32 @@ export default function ResultsPage() {
 
         {/* Section 6: Customer Communication */}
         <section className="mb-16">
-          <h2 className="text-xl font-bold text-[var(--brand-ink)] mb-6 flex items-center gap-2">
-            <span>💬</span> What to Tell the Customer
-          </h2>
-          <Card className="p-8 border-l-4 border-[var(--brand-blue)] bg-gradient-to-br from-blue-50 to-white">
-            <p className="text-gray-800 leading-relaxed whitespace-pre-wrap mb-6">
-              {customerMessage}
-            </p>
-            <a
-              href={mailtoHref}
-              className="brand-button inline-flex rounded-2xl px-6 py-3 font-medium text-white transition-colors"
-            >
-              → Copy &amp; Send
-            </a>
+          <SectionHeading icon="chat">What to tell the customer</SectionHeading>
+          <Card className="p-8 border-l-4 border-[var(--brand-primary)]">
+            <div className="rounded-lg bg-[var(--brand-tint)] p-5">
+              <p className="whitespace-pre-wrap leading-relaxed text-[var(--neutral-fg-1)]">
+                {customerMessage}
+              </p>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={handleCopy}
+                className="brand-outline-button inline-flex items-center gap-2 px-5 py-2.5 text-sm"
+              >
+                <Icon name={copied ? "check" : "copy"} size={16} />
+                {copied ? "Copied" : "Copy message"}
+              </button>
+              <a
+                href={mailtoHref}
+                className="brand-button inline-flex items-center gap-2 px-5 py-2.5 text-sm"
+              >
+                <Icon name="mail" size={16} />
+                Send as email
+              </a>
+            </div>
           </Card>
         </section>
-
       </div>
     </main>
   );

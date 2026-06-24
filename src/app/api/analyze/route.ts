@@ -3,6 +3,11 @@ import type { AnalyzeResponse } from "@/lib/types";
 import { findSimilarIncidents } from "@/lib/findSimilarIncidents";
 import { generateGuidance } from "@/lib/generateGuidance";
 
+// The OpenAI SDK needs the Node.js runtime (not Edge).
+export const runtime = "nodejs";
+// Cap serverless execution so a slow upstream can't hold the function open.
+export const maxDuration = 30;
+
 // POST /api/analyze
 // Body: { issue: string } -> AnalyzeResponse
 export async function POST(request: Request) {
@@ -34,6 +39,19 @@ export async function POST(request: Request) {
   const similarIncidents = findSimilarIncidents(issue);
 
   // 2. Ask the LLM for a customer-friendly message + next-best actions.
+  //    generateGuidance degrades to the mock on any upstream failure, so this
+  //    only throws on a truly unexpected error.
+  let guidance;
+  try {
+    guidance = await generateGuidance(issue, similarIncidents);
+  } catch (err) {
+    console.error("[analyze] guidance generation failed", err);
+    return NextResponse.json(
+      { error: "Unable to analyze the issue right now. Please try again." },
+      { status: 502 },
+    );
+  }
+
   const {
     customerMessage,
     recommendedActions,
@@ -43,7 +61,7 @@ export async function POST(request: Request) {
     emailSubject,
     emailBody,
     source,
-  } = await generateGuidance(issue, similarIncidents);
+  } = guidance;
 
   if (source === "mock") {
     console.warn(

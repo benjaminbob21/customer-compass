@@ -9,15 +9,20 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "a11y": "playwright test"
   },
   "dependencies": {
+    "@azure/msal-browser": "^4.30.0",
+    "@azure/msal-react": "^3.0.29",
     "next": "16.2.9",
     "openai": "^6.44.0",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

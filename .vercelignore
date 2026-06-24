@@ -1,0 +1,16 @@
+# Never upload local secrets — set env vars in the Vercel dashboard instead
+.env
+.env.*
+!.env.example
+
+# Local-only artifacts
+test-results
+playwright-report
+blob-report
+playwright/.cache
+.next
+node_modules
+
+# Repo/docs not needed for the deployment
+.git
+docs

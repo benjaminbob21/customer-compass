@@ -3,6 +3,7 @@
  */
 
 import Card from "./Card";
+import Icon from "./Icon";
 
 interface SimilarIncidentCardProps {
   id: string;
@@ -21,32 +22,44 @@ export default function SimilarIncidentCard({
   severity,
   resolutionTime,
 }: SimilarIncidentCardProps) {
-  const severityColor =
+  const severityStyle =
     severity === "Critical"
-      ? "bg-red-100 text-red-800"
+      ? "bg-[var(--status-danger-bg)] text-[var(--status-danger)]"
       : severity === "High"
-        ? "bg-orange-100 text-orange-800"
-        : "bg-yellow-100 text-yellow-800";
+        ? "bg-[var(--status-warning-bg)] text-[var(--status-warning)]"
+        : "bg-[var(--brand-tint)] text-[var(--brand-primary)]";
 
   return (
     <Card className="p-6">
-      <div className="flex items-start justify-between mb-3">
-        <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-        {severity && (
-          <span className={`px-3 py-1 rounded-full text-xs font-medium ${severityColor}`}>
-            {severity}
+      <div className="mb-3 flex items-start justify-between gap-4">
+        <div className="flex items-start gap-3">
+          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--brand-tint)] text-[var(--brand-primary)]">
+            <Icon name="documents" size={18} />
           </span>
+          <h3 className="text-base font-semibold text-[var(--neutral-fg-1)]">{title}</h3>
+        </div>
+        {severity && (
+          <span className={`ms-badge ${severityStyle}`}>{severity}</span>
         )}
       </div>
 
-      <p className="text-gray-600 mb-4">{resolution}</p>
+      <p className="mb-4 pl-12 text-sm leading-6 text-[var(--neutral-fg-2)]">{resolution}</p>
 
-      <div className="flex gap-4 text-sm text-gray-500">
-        {date && <div>📅 {date}</div>}
-        {resolutionTime && <div>⏱️ {resolutionTime}</div>}
+      <div className="flex flex-wrap gap-4 pl-12 text-xs text-[var(--neutral-fg-3)]">
+        {date && (
+          <span className="inline-flex items-center gap-1.5">
+            <Icon name="history" size={14} /> {date}
+          </span>
+        )}
+        {resolutionTime && (
+          <span className="inline-flex items-center gap-1.5">
+            <Icon name="clock" size={14} /> {resolutionTime}
+          </span>
+        )}
+        <span className="inline-flex items-center gap-1.5 font-mono text-[var(--neutral-fg-4)]">
+          {id}
+        </span>
       </div>
-
-      <div className="text-xs text-gray-400 mt-3">ID: {id}</div>
     </Card>
   );
 }

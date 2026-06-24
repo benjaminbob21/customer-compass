@@ -8,7 +8,7 @@ import type { LlmClient } from "./client";
 export class MockLlmClient implements LlmClient {
   readonly source = "mock" as const;
 
-  async complete(_prompt: string): Promise<string> {
+  async complete(): Promise<string> {
     // Simulate a tiny bit of latency so the UI's loading state is visible.
     await new Promise((resolve) => setTimeout(resolve, 300));
 

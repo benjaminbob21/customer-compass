@@ -13,7 +13,14 @@ export class AzureOpenAiClient implements LlmClient {
   private readonly model: string;
 
   constructor(baseURL: string, apiKey: string, model: string) {
-    this.client = new OpenAI({ baseURL, apiKey });
+    this.client = new OpenAI({
+      baseURL,
+      apiKey,
+      // Bound how long a single request can run and how many times the SDK
+      // retries, so a slow/unavailable model can't hang the serverless route.
+      timeout: 25_000,
+      maxRetries: 1,
+    });
     this.model = model;
   }
 
