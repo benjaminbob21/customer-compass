@@ -7,45 +7,42 @@ application deployed on Vercel and powered by Azure AI Foundry.
 ## System Diagram
 
 ```mermaid
-flowchart TB
-    subgraph L1["① Identity &amp; Access"]
-        direction LR
-        User(["👤 Support Engineer"])
-        Entra["🔐 Microsoft Entra ID<br/>Single Sign-On"]
-        User --- Entra
+flowchart LR
+    User(["👤 Support<br/>Engineer"])
+
+    subgraph Auth["🔐 Identity"]
+        direction TB
+        Entra["Microsoft Entra ID<br/>Single Sign-On"]
     end
 
-    subgraph L2["② Presentation Layer · Vercel Edge Network"]
-        direction LR
-        Web["⚡ Next.js App Router (React 19)<br/>Server-Rendered UI · HTTPS + CSP/HSTS"]
-        Results["📄 Results Page<br/>Trust Score · Actions · Customer Message"]
-        Web --- Results
+    subgraph App["⚡ Web App · Vercel Edge"]
+        direction TB
+        Web["Next.js App Router (React 19)<br/>HTTPS · CSP/HSTS"]
     end
 
-    subgraph L3["③ Application Layer · Serverless API"]
-        direction LR
-        API["🧩 Analysis API<br/>/api/analyze · validation · SLA-capped"]
-        Retrieval["🔎 Incident Similarity Engine<br/>retrieves closest historical incidents"]
-        Reasoning["🧠 AI Reasoning Layer<br/>grounds prompt · structures output"]
+    subgraph Backend["🧩 Serverless API"]
+        direction TB
+        API["/api/analyze<br/>validation · SLA-capped"]
+        Retrieval["🔎 Incident Similarity Engine"]
+        Reasoning["🧠 AI Reasoning Layer"]
         API --> Retrieval --> Reasoning
     end
 
-    subgraph L4["④ Intelligence · Azure AI Foundry"]
-        AOAI["☁️ Azure OpenAI — GPT-4o<br/>Responsible AI"]
+    AOAI["☁️ Azure OpenAI — GPT-4o<br/>Azure AI Foundry · Responsible AI"]
+    KB[("📚 Historical<br/>Incident Corpus")]
+
+    subgraph Out["📄 Results"]
+        direction TB
+        Results["Trust Score · Actions<br/>Customer Message · Resolution Path"]
     end
 
-    subgraph L5["⑤ Knowledge Base"]
-        KB[("📚 Historical Incident Corpus<br/>incidents · root causes · resolutions")]
-    end
+    Outlook["📧 Microsoft<br/>Outlook"]
 
-    Outlook["📧 Microsoft Outlook<br/>customer-ready email"]
-
-    Entra ==>|authenticated session| Web
-    Web ==>|"customer issue"| API
+    User ==> Entra ==>|authenticated session| Web ==>|customer issue| API
     Retrieval -. grounds on .-> KB
     Reasoning <==>|reason over evidence| AOAI
-    Reasoning ==>|"Trust Score · Recommended Actions<br/>Customer-Ready Message · Resolution Path"| Results
-    Results ==>|"Send as email"| Outlook
+    Reasoning ==> Results
+    Results ==>|Send as email| Outlook
 
     classDef azure fill:#0078d4,stroke:#004578,color:#ffffff
     classDef kb fill:#eef6ec,stroke:#0e700e,color:#063b06
