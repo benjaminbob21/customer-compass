@@ -111,13 +111,17 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`rounded-md px-3.5 py-2 text-sm font-semibold transition-colors ${
+                  aria-current={isActive(link.href) ? "page" : undefined}
+                  className={`relative rounded-md px-3.5 py-2 text-sm font-semibold transition-colors ${
                     isActive(link.href)
-                      ? "bg-[var(--brand-tint)] text-[var(--brand-primary)]"
+                      ? "bg-[var(--brand-tint-2)] text-[var(--brand-primary)] ring-1 ring-inset ring-[var(--brand-primary)]/30"
                       : "text-[var(--neutral-fg-2)] hover:bg-[var(--neutral-bg-2)] hover:text-[var(--neutral-fg-1)]"
                   }`}
                 >
                   {link.label}
+                  {isActive(link.href) && (
+                    <span className="absolute inset-x-3 bottom-1 h-0.5 rounded-full bg-[var(--brand-primary)]" />
+                  )}
                 </Link>
               ))}
             </div>
@@ -151,10 +155,11 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className={`block rounded-md px-3 py-2.5 text-sm font-semibold transition-colors ${
+                  aria-current={isActive(link.href) ? "page" : undefined}
+                  className={`block rounded-md border-l-[3px] px-3 py-2.5 text-sm font-semibold transition-colors ${
                     isActive(link.href)
-                      ? "bg-[var(--brand-tint)] text-[var(--brand-primary)]"
-                      : "text-[var(--neutral-fg-2)] hover:bg-[var(--neutral-bg-2)]"
+                      ? "border-[var(--brand-primary)] bg-[var(--brand-tint-2)] text-[var(--brand-primary)]"
+                      : "border-transparent text-[var(--neutral-fg-2)] hover:bg-[var(--neutral-bg-2)]"
                   }`}
                 >
                   {link.label}
