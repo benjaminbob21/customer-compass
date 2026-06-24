@@ -5,10 +5,7 @@
 import BrandLogo from "@/components/BrandLogo";
 import Link from "next/link";
 
-const sections: {
-  heading: string;
-  links: { label: string; href?: string }[];
-}[] = [
+const sections: { heading: string; links: { label: string; href: string }[] }[] = [
   {
     heading: "Product",
     links: [
@@ -20,13 +17,7 @@ const sections: {
   },
   {
     heading: "Platform",
-    links: [
-      { label: "Future Vision", href: "/future-vision" },
-      // Trust indicators — capabilities of the platform, not navigable pages.
-      { label: "Built on Azure AI" },
-      { label: "Entra ID single sign-on" },
-      { label: "Responsible AI" },
-    ],
+    links: [{ label: "Future Vision", href: "/future-vision" }],
   },
 ];
 
@@ -48,18 +39,12 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {section.links.map((link) => (
                 <li key={link.label}>
-                  {link.href ? (
-                    <Link
-                      href={link.href}
-                      className="text-sm text-[var(--neutral-fg-2)] transition-colors hover:text-[var(--brand-primary)]"
-                    >
-                      {link.label}
-                    </Link>
-                  ) : (
-                    <span className="text-sm text-[var(--neutral-fg-3)]">
-                      {link.label}
-                    </span>
-                  )}
+                  <Link
+                    href={link.href}
+                    className="text-sm text-[var(--neutral-fg-2)] transition-colors hover:text-[var(--brand-primary)]"
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
