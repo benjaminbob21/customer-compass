@@ -4,7 +4,7 @@
  * IssueForm — support engineer enters a customer issue for analysis.
  */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Icon from "@/components/Icon";
 
 interface IssueFormProps {
@@ -18,12 +18,37 @@ const examples = [
   "Storage account requests timing out during peak hours",
 ];
 
+// The button walks through these stages one at a time while the request runs.
+const stages = [
+  "Searching similar incidents",
+  "Analyzing patterns with Azure AI",
+  "Drafting customer-ready guidance",
+  "Assembling your action plan",
+];
+const TICK_MS = 700;
+
 export default function IssueForm({ onSubmit, isLoading = false }: IssueFormProps) {
   const [issue, setIssue] = useState("");
+  // One counter drives the staged button. Each stage spans two ticks:
+  // tick 0 = in progress (spinner), tick 1 = completed (green check), then advance.
+  const [tick, setTick] = useState(0);
+
+  useEffect(() => {
+    if (!isLoading) return;
+    const id = setInterval(() => setTick((t) => t + 1), TICK_MS);
+    return () => clearInterval(id);
+  }, [isLoading]);
+
+  const lastStage = stages.length - 1;
+  const stage = Math.min(Math.floor(tick / 2), lastStage);
+  // Show the green check between stages, but never on the final stage — it keeps
+  // spinning until the real response arrives and navigation happens.
+  const stageDone = tick % 2 === 1 && stage < lastStage;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (issue.trim()) {
+      setTick(0);
       onSubmit(issue);
       setIssue("");
     }
@@ -69,12 +94,24 @@ export default function IssueForm({ onSubmit, isLoading = false }: IssueFormProp
       <button
         type="submit"
         disabled={isLoading || !issue.trim()}
-        className="brand-button flex w-full items-center justify-center gap-2 px-4 py-3"
+        className={`brand-button relative flex w-full items-center justify-center gap-2 overflow-hidden px-4 py-3 ${
+          isLoading ? "is-loading" : ""
+        }`}
+        aria-live="polite"
       >
         {isLoading ? (
           <>
-            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-            Analyzing…
+            <span key={`${stage}-${stageDone}`} className="animate-stage flex items-center gap-2">
+              {stageDone ? (
+                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[var(--status-success)] text-white">
+                  <Icon name="check" size={11} />
+                </span>
+              ) : (
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+              )}
+              {stages[stage]}…
+            </span>
+            <span className="ms-progress" aria-hidden="true" />
           </>
         ) : (
           <>
