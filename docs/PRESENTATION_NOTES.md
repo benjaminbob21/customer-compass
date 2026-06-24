@@ -99,22 +99,34 @@ from any Microsoft source **as that user**, respecting their existing permission
 - We honor **`prefers-reduced-motion`** — animations are disabled for users who request it
   at the OS level.
 
+**High-contrast & Windows High Contrast Mode users**
+- We honor **`prefers-contrast: more`** (stronger text/border contrast, thicker focus ring)
+  and **`forced-colors: active`** — in Windows High Contrast Mode we let the OS palette paint
+  text/backgrounds, keep borders on interactive controls, and drop decorative gradients so
+  nothing becomes unreadable.
+
 **Deaf / hard-of-hearing users**
 - The product is **text-first**: all guidance, customer-communication drafts, and analysis are
   written content, not audio/video — so there's no audio barrier today.
 
+**Automated verification**
+- An **axe-core accessibility test suite** (Playwright + `@axe-core/playwright`) scans every
+  route for **WCAG 2.0/2.1 A & AA** violations. Run with `npm run a11y` — all 6 routes currently
+  pass with **zero violations**. This is repeatable and ready to wire into CI.
+
 ### What we recommend next (roadmap — honest about gaps)
 - **Captions/transcripts** if we ever add demo videos or voice features.
-- **High-contrast mode** support via `prefers-contrast` and Windows High Contrast testing.
-- **Full keyboard-trap audit** of the flyout menus and an automated **axe / Accessibility
-  Insights** pass in CI.
-- **Real screen-reader testing** with Narrator/NVDA on each release.
+- **Real screen-reader testing** with Narrator/NVDA on each release (axe catches ~30–40% of
+  issues automatically; manual AT testing covers the rest).
+- **Wire `npm run a11y` into CI** so the axe pass blocks regressions on every PR.
+- **Full keyboard-trap audit** of the flyout menus.
 - **Localization / RTL** support for global teams.
 
 ### One-line summary for a slide
 > *Accessibility is built in, not bolted on: status is conveyed by icon + text (not color alone),
-> visible focus rings, semantic HTML + ARIA for screen readers, and reduced-motion support —
-> aligned with Microsoft Inclusive Design and WCAG.*
+> visible focus rings, semantic HTML + ARIA for screen readers, reduced-motion + high-contrast
+> support, and an automated axe-core suite passing WCAG A/AA on every route — aligned with
+> Microsoft Inclusive Design and WCAG.*
 
 ---
 

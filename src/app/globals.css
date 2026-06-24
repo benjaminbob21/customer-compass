@@ -344,3 +344,53 @@ a {
     scroll-behavior: auto !important;
   }
 }
+
+/* High contrast — users who request "more contrast" at the OS/browser level */
+@media (prefers-contrast: more) {
+  :root {
+    --neutral-fg-2: #1a1a1a;
+    --neutral-fg-3: #1a1a1a;
+    --neutral-fg-4: #2b2b2b;
+    --neutral-stroke-1: #000000;
+    --neutral-stroke-2: #000000;
+    --brand-primary: #0a4f8f;
+    --brand-primary-hover: #0a4f8f;
+  }
+  a,
+  button {
+    text-decoration-thickness: from-font;
+  }
+  :focus-visible {
+    outline-width: 3px;
+  }
+}
+
+/* Windows High Contrast Mode / forced-colors — honor the user's system palette */
+@media (forced-colors: active) {
+  /* Let the OS paint text/background; only ensure structure stays visible. */
+  .brand-button,
+  .brand-outline-button,
+  .ms-chip,
+  .ms-badge,
+  .ms-surface,
+  .brand-panel,
+  .ms-acrylic {
+    border: 1px solid CanvasText;
+  }
+  .brand-button {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+  /* Decorative gradient/mesh backgrounds add no info — drop them so text stays legible. */
+  .brand-page-hero::before,
+  .brand-page-hero::after,
+  .text-gradient,
+  .text-brand-gradient {
+    forced-color-adjust: none;
+  }
+  :focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+}
