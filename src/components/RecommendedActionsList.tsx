@@ -2,23 +2,29 @@
  * RecommendedActionsList component - Display a list of recommended actions
  */
 
+import Icon from "./Icon";
+
 interface RecommendedActionsListProps {
   actions: string[];
 }
 
 export default function RecommendedActionsList({ actions }: RecommendedActionsListProps) {
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       {actions.map((action, index) => (
-        <div key={index} className="flex items-start gap-4">
-          <div className="flex-shrink-0">
-            <div className="flex items-center justify-center h-8 w-8 rounded-full bg-blue-100 text-blue-600 font-semibold">
-              {index + 1}
-            </div>
+        <div
+          key={index}
+          className="flex items-start gap-4 rounded-lg border border-transparent p-3 transition-colors hover:border-[var(--neutral-stroke-1)] hover:bg-[var(--neutral-bg-2)]"
+        >
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--brand-tint)] text-sm font-bold text-[var(--brand-primary)]">
+            {index + 1}
           </div>
-          <div>
-            <p className="text-gray-800">{action}</p>
-          </div>
+          <p className="pt-1 text-sm leading-6 text-[var(--neutral-fg-1)]">{action}</p>
+          <Icon
+            name="arrowRight"
+            size={16}
+            className="ml-auto mt-1.5 shrink-0 text-[var(--neutral-fg-disabled)]"
+          />
         </div>
       ))}
     </div>

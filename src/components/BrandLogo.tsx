@@ -35,8 +35,8 @@ export default function BrandLogo({
           <div className="text-lg font-semibold tracking-tight text-[var(--brand-deep)]">
             Customer Compass
           </div>
-          <div className="text-xs uppercase tracking-[0.24em] text-[var(--brand-navy)]/70">
-            Clearer support
+          <div className="text-xs uppercase tracking-[0.22em] text-[var(--neutral-fg-4)]">
+            Support intelligence
           </div>
         </div>
       )}

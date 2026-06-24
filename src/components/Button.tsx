@@ -20,12 +20,10 @@ export default function Button({
   type = "button",
 }: ButtonProps) {
   const baseStyles =
-    "px-6 py-2 rounded-lg font-medium transition-colors duration-200 disabled:opacity-50";
+    "inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm transition-all duration-150 disabled:cursor-not-allowed";
 
   const variantStyles =
-    variant === "primary"
-      ? "bg-blue-600 text-white hover:bg-blue-700"
-      : "bg-gray-200 text-gray-900 hover:bg-gray-300";
+    variant === "primary" ? "brand-button" : "brand-outline-button";
 
   return (
     <button

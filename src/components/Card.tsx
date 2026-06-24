@@ -10,7 +10,7 @@ interface CardProps {
 export default function Card({ children, className = "" }: CardProps) {
   return (
     <div
-      className={`brand-panel rounded-[24px] transition-shadow duration-200 hover:shadow-xl ${className}`}
+      className={`brand-panel transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-16)] ${className}`}
     >
       {children}
     </div>
