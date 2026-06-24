@@ -50,7 +50,8 @@ export default function IssueForm({ onSubmit, isLoading = false }: IssueFormProp
     if (issue.trim()) {
       setTick(0);
       onSubmit(issue);
-      setIssue("");
+      // Keep the issue text in place while analysis runs; the component unmounts
+      // on navigation to the results page, so there's no need to clear it here.
     }
   };
 
