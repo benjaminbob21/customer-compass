@@ -19,13 +19,19 @@ const navLinks: { href: string; label: string }[] = [
   { href: "/journey", label: "Journey" },
 ];
 
-const suiteApps: { label: string; icon: IconName; color: string }[] = [
-  { label: "Teams", icon: "chat", color: "#5059c9" },
-  { label: "Outlook", icon: "mail", color: "#0f6cbd" },
-  { label: "Azure", icon: "globe", color: "#008ad7" },
-  { label: "Admin", icon: "shield", color: "#0e700e" },
-  { label: "Insights", icon: "chart", color: "#8661c5" },
-  { label: "Compass", icon: "compass", color: "#0c3b5e" },
+const suiteApps: {
+  label: string;
+  icon: IconName;
+  color: string;
+  href: string;
+  external?: boolean;
+}[] = [
+  { label: "Teams", icon: "chat", color: "#5059c9", href: "https://teams.microsoft.com", external: true },
+  { label: "Outlook", icon: "mail", color: "#0f6cbd", href: "https://outlook.office.com", external: true },
+  { label: "Azure", icon: "globe", color: "#008ad7", href: "https://portal.azure.com", external: true },
+  { label: "Admin", icon: "shield", color: "#0e700e", href: "https://admin.microsoft.com", external: true },
+  { label: "Insights", icon: "chart", color: "#8661c5", href: "https://insights.viva.office.com", external: true },
+  { label: "Compass", icon: "compass", color: "#0c3b5e", href: "/" },
 ];
 
 export default function Navbar() {
@@ -67,9 +73,13 @@ export default function Navbar() {
                     <p className="ms-eyebrow mb-3 text-[var(--neutral-fg-4)]">Microsoft 365</p>
                     <div className="grid grid-cols-3 gap-2">
                       {suiteApps.map((app) => (
-                        <button
+                        <a
                           key={app.label}
-                          type="button"
+                          href={app.href}
+                          {...(app.external
+                            ? { target: "_blank", rel: "noopener noreferrer" }
+                            : {})}
+                          onClick={() => setAppsOpen(false)}
                           className="flex flex-col items-center gap-1.5 rounded-lg p-3 transition-colors hover:bg-[var(--neutral-bg-2)]"
                         >
                           <span
@@ -81,7 +91,7 @@ export default function Navbar() {
                           <span className="text-xs font-medium text-[var(--neutral-fg-2)]">
                             {app.label}
                           </span>
-                        </button>
+                        </a>
                       ))}
                     </div>
                   </div>
