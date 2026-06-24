@@ -89,10 +89,12 @@ export default function ResultsPage() {
   const customerMessage = analysis?.customerMessage ?? mockCustomerMessage;
 
   const emailSubject = analysis?.emailSubject ?? "Update on your support issue";
-  // Always email the exact message shown on screen so what you see is what you send.
+  // Email the exact message shown on screen, wrapped with a greeting and sign-off.
+  // Copy uses the raw message; the email adds the formal framing customers expect.
+  const emailBody = `Dear Customer,\n\n${customerMessage}\n\nBest regards,\nMicrosoft Support`;
   const mailtoHref = `mailto:?subject=${encodeURIComponent(
     emailSubject,
-  )}&body=${encodeURIComponent(customerMessage)}`;
+  )}&body=${encodeURIComponent(emailBody)}`;
 
   const [copied, setCopied] = useState(false);
   const handleCopy = async () => {
