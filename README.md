@@ -20,6 +20,8 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 > Note: `node_modules/`, `.next/`, and `.env.local` are intentionally git-ignored.
 > Everyone regenerates these locally — never commit them.
 
+Deployed website on Vercel: https://customer-compass-ecru.vercel.app/
+
 ## Available Scripts
 
 | Script          | Description                          |
