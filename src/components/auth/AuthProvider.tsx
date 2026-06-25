@@ -154,9 +154,9 @@ function EntraProvider({ children }: { children: ReactNode }) {
 /* -------------------------------------------------------------------------- */
 
 const DEMO_USER: AuthUser = {
-  name: "Riley Carter",
-  username: "riley.carter@contoso.com",
-  initials: "RC",
+  name: "Hannah Schemmel",
+  username: "hannah.schemmel@contoso.com",
+  initials: "HS",
 };
 
 function DemoProvider({ children }: { children: ReactNode }) {
