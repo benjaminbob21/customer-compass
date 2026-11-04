@@ -13,8 +13,8 @@
     "a11y": "playwright test"
   },
   "dependencies": {
-    "@azure/msal-browser": "^4.30.0",
-    "@azure/msal-react": "^3.0.29",
+    "@azure/msal-browser": "^5.27.0",
+    "@azure/msal-react": "^5.7.4",
     "next": "16.2.9",
     "openai": "^6.44.0",
     "react": "19.2.4",
